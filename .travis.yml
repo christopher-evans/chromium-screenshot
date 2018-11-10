@@ -31,7 +31,7 @@ matrix:
       - BUILD_DOCS=true
 
 before_install:
-- if [[ $TEST_COVERAGE == 'true' ]]; then pip install mkdocs ; fi
+- if [[ $TEST_COVERAGE == 'true' ]]; then pip install --user mkdocs mkdocs-material ; fi
 
 install:
   - travis_retry npm install
