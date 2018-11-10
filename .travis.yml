@@ -26,9 +26,10 @@ matrix:
     - node_js: "stable"
       python: 3.7
       env:
+      - BUILD_DOCS=true
+      - LINT=true
       - TEST=true
       - TEST_COVERAGE=true
-      - BUILD_DOCS=true
 
 before_install:
 - if [[ $TEST_COVERAGE == 'true' ]]; then pip install --user mkdocs mkdocs-material ; fi
@@ -39,6 +40,7 @@ install:
 script:
   - if [[ $TEST == 'true' ]]; then npm test ; fi
   - if [[ $TEST_COVERAGE == 'true' ]]; then npm run coverage ; fi
+  - if [[ $LINT == 'true' ]]; then npm run lint ; fi
 
 after_success:
     - if [[ $BUILD_DOCS == 'true' ]]; then chmod +x bin/travis-docs.sh ; fi

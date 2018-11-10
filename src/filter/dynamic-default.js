@@ -1,6 +1,4 @@
 
-const check = require("check-types");
-
 class DynamicDefault
 {
     constructor(source, defaultValue)
