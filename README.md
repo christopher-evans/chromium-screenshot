@@ -12,10 +12,11 @@ documented in the [package.json][] file.
 
 ## Tests
 
-To run the unit tests and generate a coverage report with [Mocha][] run
+To run the unit tests and generate a coverage report with [Mocha][] and [Istanbul][] run
 `npm install` followed by `npm test` at the command line.
 
 
 
+[Istanbul]: https://istanbul.js.org/
 [Mocha]: https://mochajs.org/
 [package.json]: ./package.json
