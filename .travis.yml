@@ -31,7 +31,7 @@ matrix:
       - BUILD_DOCS=true
 
 before_install:
-- pip install mkdocs
+- if [[ $TEST_COVERAGE == 'true' ]]; then pip install mkdocs ; fi
 
 install:
   - travis_retry npm install
