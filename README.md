@@ -1,6 +1,8 @@
 # Chromium Screenshot
 
 ### Master
+[![Build Status](https://travis-ci.org/christopher-evans/chromium-screenshot.svg?branch=master)](https://travis-ci.org/christopher-evans/chromium-screenshot)
+[![Coverage Status](https://coveralls.io/repos/github/christopher-evans/chromium-screenshot/badge.svg?branch=master)](https://coveralls.io/github/christopher-evans/chromium-screenshot?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c33ffd2289a1f3ecf8ff/maintainability)](https://codeclimate.com/github/christopher-evans/chromium-screenshot/maintainability)
 
 
