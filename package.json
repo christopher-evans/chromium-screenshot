@@ -28,6 +28,7 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "docs": "mkdocs build",
     "lint": "eslint .",
+    "start": "node app/server.js",
     "test": "nyc --reporter=html mocha tests/**/*.test.js"
   },
   "config": {

@@ -5,7 +5,7 @@
  * file that was distributed with this source code.
  */
 
-const queue = require("../../queue");
+const queue = require("../../app/queue");
 const Job = require("../job");
 
 class Worker

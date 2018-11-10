@@ -14,7 +14,7 @@ const {
 } = require("mocha");
 const sinon = require("sinon");
 const asyncUtil = require("../async-util");
-const logger = require("../../logger");
+const logger = require("../../app/logger");
 const { LogResponder } = require("../../src/responder");
 
 describe(

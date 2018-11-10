@@ -8,21 +8,21 @@
 const express = require("express");
 const config = require("./config");
 const logger = require("./logger");
-const Browser = require("./src/browser");
+const Browser = require("../src/browser");
 
 const {
     ImageWorker
-} = require("./src/worker");
+} = require("../src/worker/index");
 
 const {
     LogResponder,
     WorkerResponder
-} = require("./src/responder");
+} = require("../src/responder/index");
 
 const {
     InputRoute,
     SimpleRoute
-} = require("./src/route");
+} = require("../src/route/index");
 
 const {
     AggregateFilter,
@@ -35,7 +35,7 @@ const {
     NumberFilter,
     RequiredFilter,
     UrlFilter
-} = require("./src/filter");
+} = require("../src/filter/index");
 
 
 const browser = new Browser(config.browser_flags);

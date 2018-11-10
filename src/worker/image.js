@@ -5,7 +5,7 @@
  * file that was distributed with this source code.
  */
 
-const logger = require("../../logger");
+const logger = require("../../app/logger");
 
 class ImageWorker
 {

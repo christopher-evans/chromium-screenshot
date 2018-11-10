@@ -6,7 +6,7 @@
  */
 
 const process = require("process");
-const Env = require("./src/config/env");
+const Env = require("../src/config/env");
 const {
     AggregateFilter,
     BooleanFilter,
@@ -16,7 +16,7 @@ const {
     RequiredFilter,
     SpaceSeparatedFilter,
     UrlPathFilter
-} = require("./src/filter");
+} = require("../src/filter/index");
 
 const config = () =>
 {

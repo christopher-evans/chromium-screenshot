@@ -14,7 +14,7 @@ const {
 } = require("mocha");
 const sinon = require("sinon");
 const asyncUtil = require("../async-util");
-const queue = require("../../queue");
+const queue = require("../../app/queue");
 const { WorkerResponder } = require("../../src/responder");
 const { ImageWorker } = require("../../src/worker");
 
