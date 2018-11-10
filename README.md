@@ -26,5 +26,6 @@ To run the unit tests and generate a coverage report with [Mocha][] and [Istanbu
 
 
 [Istanbul]: https://istanbul.js.org/
+[MkDocs]: https://www.mkdocs.org/
 [Mocha]: https://mochajs.org/
 [package.json]: ./package.json
