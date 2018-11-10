@@ -1,0 +1,10 @@
+
+# node modules
+/node_modules
+
+# test reports
+/.nyc_output
+/coverage
+
+# log files
+/log/*.log

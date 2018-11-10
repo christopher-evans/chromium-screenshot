@@ -1,0 +1,3 @@
+# ignore everything outside /src directory
+**/*.js
+!/src/**/*.js

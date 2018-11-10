@@ -1,0 +1,92 @@
+{
+  "name": "chromium-screenshot",
+  "version": "1.0.0",
+  "description": "Screenshot server using Chromium and Puppeteer",
+  "keywords": [
+    "screenshot",
+    "chromium",
+    "server",
+    "puppeteer"
+  ],
+  "homepage": "https://github.com/christopher-evans/chromium-screenshot",
+  "bugs": {
+    "url": "https://github.com/christopher-evans/chromium-screenshot/issues",
+    "email": "cmevans@tutanota.com"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Christopher Evans",
+    "email": "cmevans@tutanota.com",
+    "url": "https://github.com/christopher-evans"
+  },
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/christopher-evans/chromium-screenshot.git"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "nyc --reporter=html mocha tests/**/*.test.js",
+    "test-coverage": "nyc report --reporter=clover"
+  },
+  "config": {
+    "browser": {
+      "restart_interval": "3600000",
+      "flags": "--disable-dev-shm-usage --no-sandbox"
+    },
+    "debug": "1",
+    "log": {
+      "console": {
+        "enable": "1",
+        "level": "debug"
+      },
+      "file": {
+        "enable": "1",
+        "level": "debug",
+        "path": "log/app.log"
+      }
+    },
+    "port": "40",
+    "render": {
+      "cache": "0",
+      "timeout": "5000",
+      "wait_until": "load"
+    },
+    "route": {
+      "document": "/document",
+      "image": "/image",
+      "log": "/log",
+      "ping": "/ping"
+    },
+    "worker_concurrency": "5"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.0",
+    "check-types": "^7.4.0",
+    "contra": "^1.9.0",
+    "express": "^4.16.0",
+    "express-winston": "^3.0.0",
+    "helmet": "^3.15.0",
+    "isostring": "0.0.1",
+    "puppeteer": "^1.10.0",
+    "sanitize-html": "^1.19.0",
+    "valid-url": "^1.0.0",
+    "winston": "^3.1.0",
+    "winston-transport": "^4.2.0"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0",
+    "node-mocks-http": "^1.7.3",
+    "nyc": "^13.1.0",
+    "sinon": "^7.1.1",
+    "snyk": "^1.108.0"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.js"
+    ]
+  }
+}
