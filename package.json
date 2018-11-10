@@ -27,7 +27,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "nyc --reporter=html mocha tests/**/*.test.js",
-    "test-coverage": "nyc report --reporter=clover"
+    "test-coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "config": {
     "browser": {
@@ -75,6 +75,7 @@
     "winston-transport": "^4.2.0"
   },
   "devDependencies": {
+    "coveralls": "^3.0.2",
     "mocha": "^5.2.0",
     "node-mocks-http": "^1.7.3",
     "nyc": "^13.1.0",
