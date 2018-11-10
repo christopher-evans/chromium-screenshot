@@ -1,0 +1,16 @@
+site_name: 'Chromium Screenshot'
+site_description: 'Screenshot service using Chromium and Puppeteer'
+copyright: '(c) Chris Evans <cmevans@tutanota.com>'
+repo_url: 'https://github.com/christopher-evans/chromium-screenshot'
+nav:
+- Quick start: 'index.md'
+theme:
+  name: 'material'
+markdown_extensions:
+- toc:
+    permalink: true
+- codehilite:
+    linenums: true
+
+extra_css:
+- css/extra.css

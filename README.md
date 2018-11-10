@@ -6,6 +6,12 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/c33ffd2289a1f3ecf8ff/maintainability)](https://codeclimate.com/github/christopher-evans/chromium-screenshot/maintainability)
 
 
+## Documentation
+
+This package is documented [here](https://christopher-evans.github.io/chromium-screenshot/).  To generate the
+docs run run `npm install`, ensure [MkDocs][] is installed and available as `mkdocs` and run `npm run docs`.
+
+
 ## Dependencies
 
 This package requires Node.js 8.x or later; modules required by the package are

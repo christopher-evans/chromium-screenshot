@@ -25,9 +25,10 @@
     "url": "https://github.com/christopher-evans/chromium-screenshot.git"
   },
   "scripts": {
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "docs": "mkdocs build",
     "start": "node server.js",
-    "test": "nyc --reporter=html mocha tests/**/*.test.js",
-    "test-coverage": "nyc report --reporter=text-lcov | coveralls"
+    "test": "nyc --reporter=html mocha tests/**/*.test.js"
   },
   "config": {
     "browser": {

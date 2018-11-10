@@ -1,0 +1,6 @@
+.md-source__fact,
+.md-source__facts
+{
+    display: none;
+    visibility: hidden;
+}
