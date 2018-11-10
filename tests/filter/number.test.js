@@ -37,7 +37,7 @@ describe(
                     {
                         const filter = new NumberFilter(0, null, intParser);
 
-                        assert.throws(() => filter.filter(-1));
+                        assert.throws(() => filter.filter(- 1));
                     }
                 );
 
@@ -56,9 +56,9 @@ describe(
                     () =>
                     {
                         const fixedValue = 21;
-                        const parser = value => fixedValue;
+                        const parser = () => fixedValue;
                         const filter = new NumberFilter(null, null, parser);
-                        const values = [-1, 0, 1];
+                        const values = [- 1, 0, 1];
 
                         values.forEach(value => assert.equal(filter.filter(value), fixedValue));
                     }

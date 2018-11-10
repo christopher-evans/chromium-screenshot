@@ -94,7 +94,7 @@ describe(
 
                         responder.respond.returns(
                             new Promise(
-                                (resolve, reject) =>
+                                resolve =>
                                 {
                                     resolve(responderData);
 

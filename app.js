@@ -23,7 +23,8 @@ app.use(
             "level": "debug",
             "meta": true,
             // @TODO format
-            "msg": "{{req.ip}} - {{req.hostname}} '{{req.method}} {{req.baseUrl}}' {{res.statusCode}} {{res._contentLength}} {{res.responseTime}}ms"
+            "msg": "{{req.ip}} - {{req.hostname}} '{{req.method}} {{req.baseUrl}}'"
+                + " {{res.statusCode}} {{res._contentLength}} {{res.responseTime}}ms"
         }
     )
 );

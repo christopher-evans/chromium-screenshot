@@ -1,17 +1,16 @@
 
-const unwrap = async (fn) =>
+const unwrap = async fn =>
+{
+    try
     {
-        try
-        {
-            return await fn();
-        }
-        catch (error)
-        {
-            return error
-        }
-    };
+        return await fn();
+    }
+    catch (error)
+    {
+        return error;
+    }
+};
 
-module.exports =
-    {
-        "unwrap": unwrap
-    };
+module.exports = {
+    "unwrap": unwrap
+};

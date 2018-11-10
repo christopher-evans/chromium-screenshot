@@ -1,3 +1,4 @@
 # ignore everything outside /src directory
-**/*.js
-!/src/**/*.js
+/node_modules
+/site
+/coverage

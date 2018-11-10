@@ -1,36 +1,39 @@
 
-let winstonCommon = require("winston/lib/winston/common");
-let Transport = require("winston-transport");
+const winstonCommon = require("winston/lib/winston/common");
+const Transport = require("winston-transport");
 
 winstonCommon.clone = object =>
 {
-    let copy = Array.isArray(object) ? [] : {};
-    for (let prop in object)
-    {
-        if (Array.isArray(object[prop]))
+    const copy = Array.isArray(object) ? [] : {};
+
+    Object.entries(object).forEach(
+        ([key, value]) =>
         {
-            copy[prop] = object[prop].slice(0);
+            if (Array.isArray(value))
+            {
+                copy[key] = value.slice(0);
+            }
+            else if (value instanceof Buffer)
+            {
+                copy[key] = value.slice(0);
+            }
+            else if (typeof value !== "function")
+            {
+                copy[key] = value instanceof Object ? winstonCommon.clone(value) : value;
+            }
+            else if (typeof value === "function")
+            {
+                copy[key] = value;
+            }
         }
-        else if (object[prop] instanceof Buffer)
-        {
-            copy[prop] = object[prop].slice(0);
-        }
-        else if (typeof object[prop] !== "function")
-        {
-            copy[prop] = object[prop] instanceof Object ? winstonCommon.clone(object[prop]) : object[prop];
-        }
-        else if (typeof object[prop] === "function")
-        {
-            copy[prop] = object[prop];
-        }
-    }
+    );
 
     return copy;
 };
 
-Transport.prototype.normalizeQuery = options =>
+Transport.prototype.normalizeQuery = settings =>
 {
-    options = options || {};
+    const options = settings || {};
 
     // limit
     options.rows = options.rows || options.limit || 10;

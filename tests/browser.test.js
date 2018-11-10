@@ -19,7 +19,8 @@ describe(
 
         describe(
             "#fetch()",
-            () => {
+            () =>
+            {
                 // stub logger method before each test
                 beforeEach(() => sandBox.stub(puppeteer, "launch"));
 
@@ -65,7 +66,7 @@ describe(
                         const browser = new Browser(["--no-sandbox"]);
 
                         // this promise never resolves
-                        puppeteer.launch.returns(new Promise((resolve, reject) => true));
+                        puppeteer.launch.returns(new Promise(() => true));
 
                         const firstPromise = browser.fetch();
                         const secondPromise = browser.fetch();
