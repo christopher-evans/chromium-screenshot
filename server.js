@@ -1,4 +1,9 @@
-#!/usr/bin/env node
+/**
+ * This file is part of the chromium-screenshot package
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 // apply fix for winston 3.1 before anything else
 require("./winston-fix");
@@ -50,3 +55,5 @@ server.listen(
     },
     () => process.stdout.write("server listening on port " + port + "\n")
 );
+
+module.exports = server;

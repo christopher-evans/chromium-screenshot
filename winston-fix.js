@@ -1,3 +1,9 @@
+/**
+ * This file is part of the chromium-screenshot package
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 const winstonCommon = require("winston/lib/winston/common");
 const Transport = require("winston-transport");
@@ -5,6 +11,10 @@ const Transport = require("winston-transport");
 winstonCommon.clone = object =>
 {
     const copy = Array.isArray(object) ? [] : {};
+    if (! object)
+    {
+        return object;
+    }
 
     Object.entries(object).forEach(
         ([key, value]) =>

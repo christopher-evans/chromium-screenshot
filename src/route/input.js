@@ -1,3 +1,9 @@
+/**
+ * This file is part of the chromium-screenshot package
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 class Input
 {
@@ -28,6 +34,7 @@ class Input
                     }
                 }
             );
+            response.end();
 
             return;
         }
@@ -37,7 +44,8 @@ class Input
                 ({ content, contentType }) =>
                 {
                     response.header("Content-Type", contentType);
-                    response.end(content);
+                    response.send(content);
+                    response.end();
                 },
                 error => next(error)
             );

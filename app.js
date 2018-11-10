@@ -1,3 +1,9 @@
+/**
+ * This file is part of the chromium-screenshot package
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 const bodyParser = require("body-parser");
 const express = require("express");
@@ -22,7 +28,6 @@ app.use(
             "winstonInstance": logger,
             "level": "debug",
             "meta": true,
-            // @TODO format
             "msg": "{{req.ip}} - {{req.hostname}} '{{req.method}} {{req.baseUrl}}'"
                 + " {{res.statusCode}} {{res._contentLength}} {{res.responseTime}}ms"
         }
@@ -39,7 +44,6 @@ app.use(
         {
             "winstonInstance": logger,
             "level": "error"
-            // @TODO formatasync
         }
     )
 );

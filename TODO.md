@@ -1,0 +1,5 @@
+- TLS
+- Add route to render PDF
+- Rewrite worker to separate page / request parsing logic (Screenshot & Page classes)
+- Add e2e tests (https://glebbahmutov.com/blog/how-to-correctly-unit-test-express-server/)
+- Document everything

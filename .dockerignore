@@ -1,0 +1,15 @@
+/node_modules
+/bin
+/docs
+/site
+/tests
+.eslintignore
+.eslintrc
+.gitignore
+.npmignore
+.travis.yml
+CHANGELOG.md
+LICENSE.txt
+mkdocs.yml
+README.md
+TODO.md

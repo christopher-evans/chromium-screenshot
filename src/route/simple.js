@@ -1,3 +1,9 @@
+/**
+ * This file is part of the chromium-screenshot package
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 class Simple
 {
@@ -10,7 +16,8 @@ class Simple
     route(request, response)
     {
         response.header("Content-Type", this.contentType);
-        response.end(this.responder());
+        response.send(this.responder());
+        response.end();
     }
 }
 
