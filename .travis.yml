@@ -1,12 +1,5 @@
 sudo: false
 dist: xenial
-addons:
-  apt:
-    sources:
-    - ppa:chris-lea/redis-server
-    packages:
-    - redis-tools
-    - redis-server
 language: node_js
 
 env:
@@ -31,14 +24,13 @@ matrix:
       env:
       - TEST=true
     - node_js: "stable"
+      python: 3.7
       env:
       - TEST=true
       - TEST_COVERAGE=true
       - BUILD_DOCS=true
 
 before_install:
-- sudo apt-get update
-- sudo apt-get install -y python3
 - pip install mkdocs
 
 install:
