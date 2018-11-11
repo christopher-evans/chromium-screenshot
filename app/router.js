@@ -6,13 +6,9 @@
  */
 
 const express = require("express");
+const farm = require("worker-farm");
 const config = require("./config");
 const logger = require("./logger");
-const Browser = require("../src/browser");
-
-const {
-    ImageWorker
-} = require("../src/worker/index");
 
 const {
     LogResponder,
@@ -37,12 +33,6 @@ const {
     UrlFilter
 } = require("../src/filter/index");
 
-
-const browser = new Browser(config.browser_flags);
-
-// don't reuse a single browser too long
-setInterval(browser.clear, config.browser_restart_interval);
-
 const ping = new SimpleRoute(
     () => ({
         "timestamp": Date.now()
@@ -66,16 +56,9 @@ const log = new InputRoute(
     )
 );
 
+const workers = farm(require.resolve("./worker"));
 const image = new InputRoute(
-    new WorkerResponder(
-        parameters => "image/" + parameters.imageFormat,
-        new ImageWorker(
-            browser,
-            config.render_cache,
-            config.render_timeout,
-            config.render_wait_until
-        )
-    ),
+    new WorkerResponder(parameters => "image/" + parameters.imageFormat, workers),
     new AggregateFilter(
         {
             "url": new RequiredFilter(new UrlFilter()),

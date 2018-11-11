@@ -7,13 +7,54 @@
 
 const puppeteer = require("puppeteer");
 
+/**
+ * Browser wraps a Chromium instance from Puppeteer.
+ *
+ * Ensures we have a single, always available browser instance.
+ *
+ * @author Christopher Evans <cmevans@tutanota.com>
+ */
 class Browser
 {
+    /**
+     * Browser constructor.
+     *
+     * @param {Array} flags Chromium instance flags
+     *
+     * @public
+     */
     constructor(flags)
     {
+        /**
+         * Chromium instance flags.
+         *
+         * @private
+         */
         this.flags = flags;
+
+        /**
+         * Chromium instance.
+         *
+         * @private
+         */
+        this.instance = null;
+
+        /**
+         * Chromium instance promise.
+         *
+         * Cached to allow consistent return type after the instance is created.
+         *
+         * @private
+         */
+        this.promise = null;
     }
 
+    /**
+     * Fetch the current instance of the browser; or create a new one if not available.
+     *
+     * @returns {Promise<puppeteer.Browser>} Chromium instance promise
+     * @public
+     */
     fetch()
     {
         if (! this.promise)
@@ -39,6 +80,12 @@ class Browser
         return this.promise;
     }
 
+    /**
+     * Close the current instance and clear from the cache.
+     *
+     * @void
+     * @public
+     */
     clear()
     {
         const { instance } = this;

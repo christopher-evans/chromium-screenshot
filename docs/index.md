@@ -106,6 +106,7 @@ Defaults can be found in the [package.json][] file.
 - `route_log` <_string_> Route for log requests.
 - `worker_concurrency` <_integer_> Number of concurrent workers processing the job queue.
 
+Possible log levels are `debug`, `info`, `notice`, `warning`, `error`, `critical`, `alert` and `emergency`.
 
 [Chromium]: https://www.chromium.org/
 [Docker]: https://www.docker.com/

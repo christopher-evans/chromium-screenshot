@@ -7,16 +7,64 @@
 
 const logger = require("../../app/logger");
 
+/**
+ * Worker producing a screenshot for a given request.
+ *
+ * Uses a Chromium instance to render the page as an image.
+ *
+ * @author Christopher Evans <cmevans@tutanota.com>
+ */
 class ImageWorker
 {
+    /**
+     * Log constructor.
+     *
+     * @param {Browser} browser Chromium instance
+     * @param {boolean} enableCache Enable / disable page cache
+     * @param {number} timeout Timeout when loading page in the browser
+     * @param {number} waitUntil Events that must be triggered before rendering the screenshot
+     *
+     * @public
+     */
     constructor(browser, enableCache, timeout, waitUntil)
     {
+        /**
+         * Chromium instance.
+         *
+         * @private
+         */
         this.browser = browser;
+
+        /**
+         * Enable / disable page cache.
+         *
+         * @private
+         */
         this.enableCache = enableCache;
+
+        /**
+         * Timeout when loading page in the browser.
+         *
+         * @private
+         */
         this.timeout = timeout;
+
+        /**
+         * Events that must be triggered before rendering the screenshot.
+         *
+         * @private
+         */
         this.waitUntil = waitUntil;
     }
 
+    /**
+     * Render a screenshot for the given request parameters.
+     *
+     * @param {Object} request Screenshot request parameters
+     *
+     * @returns {Buffer} Image data
+     * @throws {Error} On browser page errors
+     */
     async work(request)
     {
         const browserInstance = await this.browser.fetch();

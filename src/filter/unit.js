@@ -7,13 +7,36 @@
 
 const check = require("check-types");
 
+/**
+ * Filter that validated units of measure.
+ *
+ * Permissible units may be configured with a regex, by default `cm`, `in`, `mm` and `px` are allowed.
+ *
+ * @author Christopher Evans <cmevans@tutanota.com>
+ */
 class Unit
 {
+    /**
+     * Unit constructor.
+     *
+     * @param {RegExp} regex Regex to validate input
+     * @public
+     */
     constructor(regex)
     {
         this.regex = regex || Unit.defaultRegex;
     }
 
+    /**
+     * Apply filter to a value.
+     *
+     * @param {string} value
+     *
+     * @returns {string} Identical in input parameter
+     * @throws {TypeError} If the value is not a string
+     * @throws {Error} If the regex does not match the input
+     * @public
+     */
     filter(value)
     {
         if (! check.string(value))
@@ -30,6 +53,11 @@ class Unit
     }
 }
 
+/**
+ * Default regex used to validate units.
+ *
+ * @private
+ */
 Unit.defaultRegex = /^\d+(?:\.\d+)?(?:cm|in|mm|px)$/i;
 
 module.exports = Unit;

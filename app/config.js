@@ -9,7 +9,7 @@ const process = require("process");
 const Env = require("../src/config/env");
 const {
     AggregateFilter,
-    BooleanFilter,
+    BooleanStringFilter,
     InArrayFilter,
     NumberFilter,
     PathFilter,
@@ -36,14 +36,14 @@ const config = () =>
     const filterMap = {
         "browser_flags": new SpaceSeparatedFilter(),
         "browser_restart_interval": new NumberFilter(60 * 1000, 24 * 60 * 60 * 1000),
-        "debug": new BooleanFilter(),
-        "log_console_enable": new BooleanFilter(),
+        "debug": new BooleanStringFilter(),
+        "log_console_enable": new BooleanStringFilter(),
         "log_console_level": new InArrayFilter(logLevels),
-        "log_file_enable": new BooleanFilter(),
+        "log_file_enable": new BooleanStringFilter(),
         "log_file_level": new InArrayFilter(logLevels),
         "log_file_path": new PathFilter(),
         "port": new NumberFilter(0, 1 << 16),
-        "render_cache": new BooleanFilter(),
+        "render_cache": new BooleanStringFilter(),
         "render_timeout": new NumberFilter(0, 60 * 60 * 1000),
         "render_wait_until": new SpaceSeparatedFilter(),
         "route_document": new UrlPathFilter(),

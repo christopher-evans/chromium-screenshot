@@ -7,8 +7,24 @@
 
 const validUrl = require("valid-url");
 
+/**
+ * Filter that validates urls.
+ *
+ * Uses the valid-url package.
+ *
+ * @author Christopher Evans <cmevans@tutanota.com>
+ */
 class Url
 {
+    /**
+     * Apply filter to a value.
+     *
+     * @param {string} value
+     *
+     * @returns {string} Identical in input parameter
+     * @throws {Error} If the input is not a valid URL.
+     * @public
+     */
     filter(value)
     {
         if (! validUrl.isUri(value))

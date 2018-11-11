@@ -5,26 +5,54 @@
  * file that was distributed with this source code.
  */
 
-const queue = require("../../app/queue");
-const Job = require("../job");
-
+/**
+ * Action responding to worker requests.
+ *
+ * @author Christopher Evans <cmevans@tutanota.com>
+ */
 class Worker
 {
-    constructor(contentType, worker)
+    /**
+     * Worker constructor.
+     *
+     * @param {function(Object): string} contentType Response content type
+     * @param {Function} workers Worker farm
+     *
+     * @public
+     */
+    constructor(contentType, workers)
     {
+        /**
+         * Dynamic response content type.
+         *
+         * @private
+         */
         this.contentType = contentType;
-        this.worker = worker;
+
+        /**
+         * Queue worker.
+         *
+         * @private
+         */
+        this.workers = workers;
     }
 
+    /**
+     * Create response for given request parameters.
+     *
+     * @param {Object} parameters
+     *
+     * @returns {Promise<Object>} Worker output
+     * @public
+     */
     respond(parameters)
     {
         return new Promise(
             (resolve, reject) =>
             {
-                // add request to queue
-                queue.push(
-                    new Job(parameters, this.worker),
-                    (result, error) =>
+                this.workers(
+                    parameters,
+                    (error, result) =>
                     {
                         if (error)
                         {
@@ -32,9 +60,10 @@ class Worker
                             return reject(error);
                         }
 
+                        const buffer = Buffer.from(result.data);
                         return resolve(
                             {
-                                "content": result,
+                                "content": buffer,
                                 "contentType": this.contentType(parameters)
                             }
                         );

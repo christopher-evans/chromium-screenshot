@@ -5,13 +5,38 @@
  * file that was distributed with this source code.
  */
 
+/**
+ * Action responding to log requests.
+ *
+ * @author Christopher Evans <cmevans@tutanota.com>
+ */
 class Log
 {
+    /**
+     * Log constructor.
+     *
+     * @param {winston.Logger} logger Logger instance
+     *
+     * @public
+     */
     constructor(logger)
     {
+        /**
+         * Logger instance.
+         *
+         * @private
+         */
         this.logger = logger;
     }
 
+    /**
+     * Create response for given request parameters.
+     *
+     * @param {Object} parameters
+     *
+     * @returns {Promise<Object>} Log query results
+     * @public
+     */
     respond(parameters)
     {
         return new Promise(

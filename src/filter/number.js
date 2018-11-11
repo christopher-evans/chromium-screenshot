@@ -5,15 +5,56 @@
  * file that was distributed with this source code.
  */
 
+/**
+ * Filter that parses and validates integer values.
+ *
+ * @author Christopher Evans <cmevans@tutanota.com>
+ */
 class NumberFilter
 {
+    /**
+     * NumberFilter constructor.
+     *
+     * @param {number} min Minimum value
+     * @param {number} max Maximum value
+     * @param {number} parser Parser applied to input, defaults to `Number.parseInt`
+     *
+     * @public
+     */
     constructor(min, max, parser)
     {
+        /**
+         * Minimum value.
+         *
+         * @private
+         */
         this.min = min;
+
+        /**
+         * Maximum value.
+         *
+         * @private
+         */
         this.max = max;
+
+        /**
+         * Parser applied to input.
+         *
+         * @private
+         */
         this.parser = parser || NumberFilter.defaultParser;
     }
 
+    /**
+     * Apply filter to a value.
+     *
+     * @param {*} value
+     *
+     * @returns {number}
+     * @throws {TypeError} If the value is not an array
+     * @throws {Error} If the value cannot be parsed or lies outside min and max values.
+     * @public
+     */
     filter(value)
     {
         const clean = this.parser(value);

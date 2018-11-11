@@ -7,8 +7,24 @@
 
 const check = require("check-types");
 
+/**
+ * Filter that splits space separated strings into an array.
+ *
+ * Empty strings are filtered from the result.
+ *
+ * @author Christopher Evans <cmevans@tutanota.com>
+ */
 class SpaceSeparated
 {
+    /**
+     * Apply filter to a value.
+     *
+     * @param {string} value
+     *
+     * @returns {Array} Array of values with not spaces.
+     * @throws {TypeError} If the value is not a string
+     * @public
+     */
     filter(value)
     {
         if (! check.string(value))
