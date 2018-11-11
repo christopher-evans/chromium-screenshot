@@ -18,8 +18,9 @@ script:
   - docker run chromium-screenshot-test /bin/sh -c "npm run lint"
 
 after_success:
-  - docker run chromium-screenshot-test /bin/sh -c "chmod +x bin/travis-docs.sh"
+  - docker run chromium-screenshot-test /bin/sh -c "chmod a+x bin/travis-docs.sh"
   - docker run chromium-screenshot-test /bin/sh -c "bin/travis-docs.sh ${MKDOCS_OUTPUT} ${GH_REPO_NAME} ${GH_REPO_REF} ${GH_REPO_TOKEN}"
+  - docker run chromium-screenshot-test /bin/sh -c "npm -v"
   - docker run chromium-screenshot-test /bin/sh -c "npm run coverage"
 
 notifications:
