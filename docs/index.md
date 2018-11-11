@@ -1,3 +1,3 @@
 # Chromium Screenshot
 
-Screenshot server using Chromium and Puppeteer
+Screenshot service using Chromium and Puppeteer.
