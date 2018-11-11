@@ -1,29 +1,21 @@
 sudo: required
-dist: xenial
-language: node_js
-node_js:
-  - "10"
 
 services:
   - docker
 
-env:
-  global:
-    - GH_REPO_NAME: chromium-screenshot
-    - GH_REPO_REF: github.com/christopher-evans/$GH_REPO_NAME.git
-    - MKDOCS_OUTPUT: site
-
 before_install:
   - docker build -t chromium-screenshot-test -f Dockerfile.test .
+  - container_id=$(mktemp)
+  - docker run -p 8080:8080 -d chromium-screenshot-test > "${container_id}"
 
 script:
-  - docker run chromium-screenshot-test /bin/sh -c "npm test"
-  - docker run chromium-screenshot-test /bin/sh -c "npm run lint"
+  - docker exec "$(cat ${container_id})" npm test
+  - docker exec "$(cat ${container_id})" npm run lint
 
 after_success:
-  - npm run coverage
-  - chmod +x bin/travis-docs.sh
-  - ./bin/travis-docs.sh $MKDOCS_OUTPUT $GH_REPO_NAME $GH_REPO_REF
+  - docker exec "$(cat ${container_id})" npm run coverage
+  - docker exec "$(cat ${container_id})" chmod +x bin/travis-docs.sh
+  - docker exec -it "$(cat ${container_id})" bin/travis-docs.sh $GH_REPO_TOKEN $TRAVIS_BUILD_NUMBER $TRAVIS_COMMIT
 
 notifications:
   email: false

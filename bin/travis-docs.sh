@@ -3,9 +3,14 @@
 set -ev
 
 ## ARGS
-MKDOCS_OUTPUT=$1
-GH_REPO_NAME=$2
-GH_REPO_REF=$3
+GH_REPO_TOKEN=$1
+TRAVIS_BUILD_NUMBER=$2
+TRAVIS_COMMIT=$3
+
+## CONSTANTS
+MKDOCS_OUTPUT=site
+GH_REPO_NAME=chromium-screenshot
+GH_REPO_REF=github.com/christopher-evans/$GH_REPO_NAME.git
 
 ## GENERATE DOCS
 npm run docs 2>&1
