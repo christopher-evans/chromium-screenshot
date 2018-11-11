@@ -6,6 +6,7 @@ set -ev
 MKDOCS_OUTPUT=$1
 GH_REPO_NAME=$2
 GH_REPO_REF=$3
+GH_REPO_TOKEN=$4
 
 ## GENERATE DOCS
 npm run docs 2>&1

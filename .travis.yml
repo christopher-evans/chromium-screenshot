@@ -1,50 +1,26 @@
-sudo: false
-dist: xenial
+sudo: required
+
 language: node_js
+
+services:
+  - docker
 
 env:
   global:
     - GH_REPO_NAME: chromium-screenshot
-    - GH_ROOT: github.com/christopher-evans
-    - GH_REPO_REF: $GH_ROOT/$GH_REPO_NAME.git
+    - GH_REPO_REF: github.com/christopher-evans/$GH_REPO_NAME.git
     - MKDOCS_OUTPUT: site
 
-matrix:
-  include:
-    - node_js: 11
-      env:
-      - TEST=true
-    - node_js: 10
-      env:
-      - TEST=true
-    - node_js: 9
-      env:
-      - TEST=true
-    - node_js: 8
-      env:
-      - TEST=true
-    - node_js: "stable"
-      python: 3.7
-      env:
-      - BUILD_DOCS=true
-      - LINT=true
-      - TEST=true
-      - TEST_COVERAGE=true
-
 before_install:
-- if [[ $TEST_COVERAGE == 'true' ]]; then pip install --user mkdocs mkdocs-material ; fi
-
-install:
-  - travis_retry npm install
+  - docker build -t chromium-screenshot-test -f Dockerfile.test .
 
 script:
-  - if [[ $TEST == 'true' ]]; then npm test ; fi
-  - if [[ $TEST_COVERAGE == 'true' ]]; then npm run coverage ; fi
-  - if [[ $LINT == 'true' ]]; then npm run lint ; fi
+  - docker run -p 8080:8080 chromium-screenshot-test /bin/sh -c "npm test"
+  - docker run -p 8080:8080 chromium-screenshot-test /bin/sh -c "npm run lint"
 
 after_success:
-    - if [[ $BUILD_DOCS == 'true' ]]; then chmod +x bin/travis-docs.sh ; fi
-    - if [[ $BUILD_DOCS == 'true' ]]; then ./bin/travis-docs.sh $MKDOCS_OUTPUT $GH_REPO_NAME $GH_REPO_REF ; fi
+  - docker run -p 8080:8080 chromium-screenshot-test /bin/sh -c "chmod +x bin/travis-docs.sh"
+  - docker run -p 8080:8080 chromium-screenshot-test /bin/sh -c "${MKDOCS_OUTPUT} ${GH_REPO_NAME} ${GH_REPO_REF} ${GH_REPO_TOKEN}"
 
 notifications:
   email: false
