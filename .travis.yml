@@ -6,7 +6,7 @@ services:
 before_install:
   - docker build -t chromium-screenshot-test -f Dockerfile.test .
   - container_id=$(mktemp)
-  - docker run -e TRAVIS_JOB_ID="${TRAVIS_JOB_ID}" -e TRAVIS_BRANCH="${TRAVIS_BRANCH}" -e TRAVIS_PULL_REQUEST="${TRAVIS_PULL_REQUEST}" -d chromium-screenshot-test > "${container_id}"
+  - docker run -d chromium-screenshot-test > "${container_id}"
 
 script:
   - docker exec "$(cat ${container_id})" npm test
@@ -14,7 +14,7 @@ script:
 
 after_success:
   - echo "${TRAVIS_JOB_ID}"
-  - docker exec -e TRAVIS_JOB_ID="${TRAVIS_JOB_ID}" -e TRAVIS_BRANCH="${TRAVIS_BRANCH}" -e TRAVIS_PULL_REQUEST="${TRAVIS_PULL_REQUEST}" "$(cat ${container_id})" npm run coverage
+  - docker exec  -e TRAVIS=1 -e TRAVIS_JOB_ID="${TRAVIS_JOB_ID}" -e TRAVIS_BRANCH="${TRAVIS_BRANCH}" -e TRAVIS_PULL_REQUEST="${TRAVIS_PULL_REQUEST}" "$(cat ${container_id})" npm run coverage
   - docker exec "$(cat ${container_id})" chmod +x bin/travis-docs.sh
   - docker exec "$(cat ${container_id})" bin/travis-docs.sh $GH_REPO_TOKEN $TRAVIS_BUILD_NUMBER $TRAVIS_COMMIT
 
