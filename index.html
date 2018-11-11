@@ -245,9 +245,79 @@
       
     
     
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Quick start
+      </label>
+    
     <a href="." title="Quick start" class="md-nav__link md-nav__link--active">
       Quick start
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" title="Getting started" class="md-nav__link">
+    Getting started
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#routes" title="Routes" class="md-nav__link">
+    Routes
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#images" title="Images" class="md-nav__link">
+    Images
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ping" title="Ping" class="md-nav__link">
+    Ping
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logs" title="Logs" class="md-nav__link">
+    Logs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-settings" title="Configuration settings" class="md-nav__link">
+    Configuration settings
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
     
   </li>
 
@@ -269,6 +339,63 @@
     
   
   
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" title="Getting started" class="md-nav__link">
+    Getting started
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#routes" title="Routes" class="md-nav__link">
+    Routes
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#images" title="Images" class="md-nav__link">
+    Images
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ping" title="Ping" class="md-nav__link">
+    Ping
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logs" title="Logs" class="md-nav__link">
+    Logs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-settings" title="Configuration settings" class="md-nav__link">
+    Configuration settings
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -283,7 +410,106 @@
                 
                 
                 <h1 id="chromium-screenshot">Chromium Screenshot<a class="headerlink" href="#chromium-screenshot" title="Permanent link">&para;</a></h1>
-<p>Screenshot service using Chromium and Puppeteer.</p>
+<p>Screenshot service using <a href="https://www.chromium.org/">Chromium</a> and <a href="https://www.chromium.org/">Puppeteer</a>.</p>
+<h2 id="getting-started">Getting started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
+<p>To start the server run:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ npm i --production
+$ npm start
+</pre></div>
+</td></tr></table>
+
+<p>By default the server will listen on port 8080. To use a different port run:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ npm config <span class="nb">set</span> chromium-screenshot:port <span class="m">40</span>
+</pre></div>
+</td></tr></table>
+
+<p>To build and start the image using <a href="https://www.docker.com/">Docker</a>:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ docker build -t chromium-screenshot .
+$ docker run -p <span class="m">40</span>:8080 chromium-screenshot
+</pre></div>
+</td></tr></table>
+
+<h2 id="routes">Routes<a class="headerlink" href="#routes" title="Permanent link">&para;</a></h2>
+<p>Any request containing JSON body <em>must</em> have the correct <code>Content-Type</code> header.</p>
+<h3 id="images">Images<a class="headerlink" href="#images" title="Permanent link">&para;</a></h3>
+<p>To generate a screenshot make a <code>POST</code> request to <code>/image</code></p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://example.com&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;imageFormat&quot;</span><span class="p">:</span> <span class="s2">&quot;jpeg&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;width&quot;</span><span class="p">:</span> <span class="mi">1024</span><span class="p">,</span>
+    <span class="nt">&quot;height&quot;</span><span class="p">:</span> <span class="mi">768</span><span class="p">,</span>
+    <span class="nt">&quot;quality&quot;</span><span class="p">:</span> <span class="mi">100</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table>
+
+<p>The image format must be either <code>jpeg</code> or <code>png</code>.  The quality parameter is ignored if <code>png</code> is used.</p>
+<p>The parameter <code>"fullPage": true</code> may be passed to take a screenshot of the full scrollable page, ignoring the width and
+height parameters. The parameter <code>"omitBackground": true</code> may be passed to remove the default white background and
+capture as transparency in the rendered image. </p>
+<h3 id="ping">Ping<a class="headerlink" href="#ping" title="Permanent link">&para;</a></h3>
+<p>The ping route is a simple <code>GET</code> request to <code>/ping</code>.</p>
+<h3 id="logs">Logs<a class="headerlink" href="#logs" title="Permanent link">&para;</a></h3>
+<p>For easier access the logs can be queried over HTTP.  Logs are saved as simple text files so the route should be closed
+off if the server is public facing.</p>
+<p>To query the logs make a <code>POST</code> request to <code>/log</code>:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;from&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;until&quot;</span><span class="p">:</span> <span class="s2">&quot;2018-01-02&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;limit&quot;</span><span class="p">:</span> <span class="s2">&quot;100&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;start&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;order&quot;</span><span class="p">:</span> <span class="s2">&quot;asc&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;level&quot;</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table>
+
+<p>Any and all of these parameters can be omitted; in general the query should be chosen to limit results to a reasonable
+size, because the server won't impose a hard limit.</p>
+<h2 id="configuration-settings">Configuration settings<a class="headerlink" href="#configuration-settings" title="Permanent link">&para;</a></h2>
+<p>There are a number of configurable options for the server that can be set with:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ npm config <span class="nb">set</span> chromium-screenshot:&lt;setting&gt; &lt;value&gt;
+</pre></div>
+</td></tr></table>
+
+<p>Defaults can be found in the <a href="../package.json">package.json</a> file.</p>
+<ul>
+<li><code>browser_flags</code> &lt;<em>string</em>&gt; Space separated flags passed to the chromium instance. A list of available flags can be
+  found <a href="https://peter.sh/experiments/chromium-command-line-switches/">here</a></li>
+<li><code>browser_restart_interval</code> &lt;<em>integer</em>&gt; Interval in ms after which the chromium instance is restarted. If set to zero
+  the same instance will be reused indefinitely, so long as it doesn't crash.</li>
+<li><code>log_console_enable</code> &lt;<em>boolean</em>&gt; Enable logging to the console</li>
+<li><code>log_console_level</code> &lt;<em>string</em>&gt; Only log to console above the provided level (see below for available levels)</li>
+<li><code>log_file_enable</code> &lt;<em>boolean</em>&gt; Enable logging to file</li>
+<li><code>log_file_level</code> &lt;<em>string</em>&gt; Only log to file above the provided level (see below for available levels)</li>
+<li><code>log_file_path</code> &lt;<em>string</em>&gt; Path to log file, either absolute or relative to application route</li>
+<li><code>port</code> &lt;<em>integer</em>&gt; Port to listen for connections</li>
+<li><code>reder_cache</code> &lt;<em>boolean</em>&gt; Enable Chromium browser cache</li>
+<li><code>render_timeout</code> &lt;<em>integer</em>&gt; Time in ms to wait for a page to load (the server will return an error if this is
+  exceeded)</li>
+<li><code>render_wait_until</code> &lt;<em>string</em>&gt; Event or space-separated list of events that should be triggered before the screenshot
+  is taken. Events may include <code>load</code>, <code>domcontentloaded</code> or <code>networkidleX</code> (no more than <code>X</code> network connections for
+  500ms).</li>
+<li><code>route_image</code> &lt;<em>string</em>&gt; Route for image requests.</li>
+<li><code>route_ping</code> &lt;<em>string</em>&gt; Route for ping requests.</li>
+<li><code>route_log</code> &lt;<em>string</em>&gt; Route for log requests.</li>
+<li><code>worker_concurrency</code> &lt;<em>integer</em>&gt; Number of concurrent workers processing the job queue.</li>
+</ul>
                 
                   
                 
