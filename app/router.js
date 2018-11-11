@@ -80,8 +80,8 @@ const image = new InputRoute(
         {
             "url": new RequiredFilter(new UrlFilter()),
             "imageFormat": new DefaultFilter(new InArrayFilter(["jpeg", "png"]), "jpeg"),
-            "width": new NumberFilter(0, 1 << 16),
-            "height": new NumberFilter(0, 1 << 16),
+            "width": new DefaultFilter(new NumberFilter(0, 1 << 16), 800),
+            "height": new DefaultFilter(new NumberFilter(0, 1 << 16), 600),
             "fullPage": new BooleanFilter(),
             "quality": new DefaultFilter(new NumberFilter(0, 100), 100),
             "omitBackground": new DefaultFilter(new BooleanFilter(), false)

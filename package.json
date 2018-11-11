@@ -48,7 +48,7 @@
         "path": "log/app.log"
       }
     },
-    "port": "40",
+    "port": "8080",
     "render": {
       "cache": "0",
       "timeout": "5000",

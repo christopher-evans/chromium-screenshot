@@ -18,13 +18,15 @@ This package requires Node.js 8.x or later; modules required by the package are
 documented in the [package.json][] file.
 
 
-## Tests
+## Code Quality
 
-To run the unit tests and generate a coverage report with [Mocha][] and [Istanbul][] run
-`npm install` followed by `npm test` at the command line.
+To run the unit tests and generate a coverage report in `/coverage` with [Mocha][]
+and [Istanbul][] run `npm install` followed by `npm test` at the command line.
+
+To run [ESLint][] run `npm install` followed by `npm run lint` at the command line.
 
 
-
+[ESLint]: https://eslint.org/
 [Istanbul]: https://istanbul.js.org/
 [MkDocs]: https://www.mkdocs.org/
 [Mocha]: https://mochajs.org/
