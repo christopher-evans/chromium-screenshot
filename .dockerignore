@@ -6,7 +6,6 @@
 .eslintignore
 .eslintrc
 .gitignore
-.npmignore
 .travis.yml
 CHANGELOG.md
 LICENSE.txt

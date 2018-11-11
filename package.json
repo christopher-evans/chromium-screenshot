@@ -29,12 +29,12 @@
     "docs": "mkdocs build",
     "lint": "eslint .",
     "start": "node app/server.js",
-    "test": "nyc --reporter=html mocha tests/**/*.test.js"
+    "test": "nyc --reporter=html mocha tests/**.test.js tests/**/*.test.js"
   },
   "config": {
     "browser": {
       "restart_interval": "3600000",
-      "flags": "--disable-dev-shm-usage --no-sandbox"
+      "flags": "--disable-dev-shm-usage"
     },
     "debug": "1",
     "log": {
