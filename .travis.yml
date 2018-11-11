@@ -6,7 +6,7 @@ services:
 before_install:
   - docker build -t chromium-screenshot-test -f Dockerfile.test .
   - container_id=$(mktemp)
-  - docker run -p 8080:8080 -d chromium-screenshot-test > "${container_id}"
+  - docker run -e TRAVIS_JOB_ID="${TRAVIS_JOB_ID}" -e TRAVIS_BRANCH="${TRAVIS_BRANCH}" -e TRAVIS_PULL_REQUEST="${TRAVIS_PULL_REQUEST}" -d chromium-screenshot-test > "${container_id}"
 
 script:
   - docker exec "$(cat ${container_id})" npm test
