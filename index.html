@@ -305,6 +305,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#operation" title="Operation" class="md-nav__link">
+    Operation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#configuration-settings" title="Configuration settings" class="md-nav__link">
     Configuration settings
   </a>
@@ -380,6 +387,13 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operation" title="Operation" class="md-nav__link">
+    Operation
+  </a>
   
 </li>
       
@@ -481,6 +495,14 @@ off if the server is public facing.</p>
 
 <p>Any and all of these parameters can be omitted; in general the query should be chosen to limit results to a reasonable
 size, because the server won't impose a hard limit.</p>
+<h2 id="operation">Operation<a class="headerlink" href="#operation" title="Permanent link">&para;</a></h2>
+<p>The app runs a single instance of the Chromium browser, each request is passed to a worker along with
+a web socket address.  Each worker maintains a connection to the Chromium instance and opens a page to
+render the screenshot.</p>
+<p>When the browser is restarted it will remain open to process the remaining requests queued for that instance
+before closing.</p>
+<p>When the number of open requests exceeds <code>worker_concurrency * worker_concurrent_calls</code> the requests are
+queued and passed out to the next available worker.  </p>
 <h2 id="configuration-settings">Configuration settings<a class="headerlink" href="#configuration-settings" title="Permanent link">&para;</a></h2>
 <p>There are a number of configurable options for the server that can be set with:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ npm config <span class="nb">set</span> chromium-screenshot:&lt;setting&gt; &lt;value&gt;
@@ -508,7 +530,9 @@ size, because the server won't impose a hard limit.</p>
 <li><code>route_image</code> &lt;<em>string</em>&gt; Route for image requests.</li>
 <li><code>route_ping</code> &lt;<em>string</em>&gt; Route for ping requests.</li>
 <li><code>route_log</code> &lt;<em>string</em>&gt; Route for log requests.</li>
-<li><code>worker_concurrency</code> &lt;<em>integer</em>&gt; Number of concurrent workers processing the job queue.</li>
+<li><code>worker_concurrency</code> &lt;<em>integer</em>&gt; Number of concurrent workers processing the queue.</li>
+<li><code>worker_concurrent_calls</code> &lt;<em>integer</em>&gt; Number of concurrent jobs sent to each worker, excess are queued.</li>
+<li><code>worker_timeout</code> <integer> Maximum execution time in ms for a single worker.</li>
 </ul>
 <p>Possible log levels are <code>debug</code>, <code>info</code>, <code>notice</code>, <code>warning</code>, <code>error</code>, <code>critical</code>, <code>alert</code> and <code>emergency</code>.</p>
                 
