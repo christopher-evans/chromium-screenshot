@@ -83,10 +83,7 @@ class Input
                     response.send(content);
                     response.end();
                 },
-                error =>
-                {
-                    next(error);
-                }
+                error => next(error)
             );
     }
 }

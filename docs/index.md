@@ -76,6 +76,19 @@ Any and all of these parameters can be omitted; in general the query should be c
 size, because the server won't impose a hard limit.
 
 
+## Operation
+
+The app runs a single instance of the Chromium browser, each request is passed to a worker along with
+a web socket address.  Each worker maintains a connection to the Chromium instance and opens a page to
+render the screenshot.
+
+When the browser is restarted it will remain open to process the remaining requests queued for that instance
+before closing.
+
+When the number of open requests exceeds `worker_concurrency * worker_concurrent_calls` the requests are
+queued and passed out to the next available worker.  
+
+
 ## Configuration settings
 
 There are a number of configurable options for the server that can be set with:
@@ -104,7 +117,9 @@ Defaults can be found in the [package.json][] file.
 - `route_image` <_string_> Route for image requests.
 - `route_ping` <_string_> Route for ping requests.
 - `route_log` <_string_> Route for log requests.
-- `worker_concurrency` <_integer_> Number of concurrent workers processing the job queue.
+- `worker_concurrency` <_integer_> Number of concurrent workers processing the queue.
+- `worker_concurrent_calls` <_integer_> Number of concurrent jobs sent to each worker, excess are queued.
+- `worker_timeout` <integer> Maximum execution time in ms for a single worker.
 
 Possible log levels are `debug`, `info`, `notice`, `warning`, `error`, `critical`, `alert` and `emergency`.
 
