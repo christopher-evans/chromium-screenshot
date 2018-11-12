@@ -34,7 +34,7 @@
   "config": {
     "browser": {
       "restart_interval": "3600000",
-      "flags": "--disable-dev-shm-usage"
+      "flags": "--disable-dev-shm-usage --no-sandbox"
     },
     "debug": "1",
     "log": {
@@ -60,7 +60,10 @@
       "log": "/log",
       "ping": "/ping"
     },
-    "worker_concurrency": "5"
+    "worker": {
+      "concurrent_calls": "10",
+      "timeout": 20000
+    }
   },
   "dependencies": {
     "body-parser": "^1.18.0",
@@ -71,6 +74,7 @@
     "isostring": "0.0.1",
     "puppeteer": "^1.10.0",
     "sanitize-html": "^1.19.0",
+    "uuid": "^3.3.2",
     "valid-url": "^1.0.0",
     "winston": "^3.1.0",
     "winston-transport": "^4.2.0",

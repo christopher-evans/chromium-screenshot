@@ -48,7 +48,7 @@ class Log
                     {
                         if (error)
                         {
-                            // @TODO wrap error for front end
+                            // @TODO make error generic for front end
                             return reject(error);
                         }
 

@@ -6,10 +6,12 @@
  */
 
 const process = require("process");
+const os = require("os");
 const Env = require("../src/config/env");
 const {
     AggregateFilter,
     BooleanStringFilter,
+    DefaultFilter,
     InArrayFilter,
     NumberFilter,
     PathFilter,
@@ -33,9 +35,9 @@ const config = () =>
     ];
 
     // define input filters
-    const filterMap = {
+    const requiredFilters = {
         "browser_flags": new SpaceSeparatedFilter(),
-        "browser_restart_interval": new NumberFilter(60 * 1000, 24 * 60 * 60 * 1000),
+        "browser_restart_interval": new NumberFilter(1000, 24 * 60 * 60 * 1000),
         "debug": new BooleanStringFilter(),
         "log_console_enable": new BooleanStringFilter(),
         "log_console_level": new InArrayFilter(logLevels),
@@ -50,26 +52,30 @@ const config = () =>
         "route_image": new UrlPathFilter(),
         "route_log": new UrlPathFilter(),
         "route_ping": new UrlPathFilter(),
-        "worker_concurrency": new NumberFilter(1, 1 << 8)
+        "worker_concurrent_calls": new NumberFilter(1, 1 << 8),
+        "worker_timeout": new NumberFilter(100, 10 * 60 * 1000)
+    };
+    const defaultFilters = {
+        "worker_concurrency": new DefaultFilter(new NumberFilter(1, 1 << 8), os.cpus().length)
     };
 
     // require everything
-    const requiredFilters = Object.entries(filterMap).reduce(
+    const allFilters = Object.entries(requiredFilters).reduce(
         (filters, [key, filter]) =>
         {
             filters[key] = new RequiredFilter(filter);
 
             return filters;
         },
-        {}
+        defaultFilters
     );
 
     return new Env(
         process.env,
         "npm_package_config_",
-        new AggregateFilter(requiredFilters)
+        new AggregateFilter(allFilters)
     )
-        .fetch(Object.keys(filterMap));
+        .fetch(Object.keys(allFilters));
 };
 
 module.exports = config();

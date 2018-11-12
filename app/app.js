@@ -67,11 +67,16 @@ app.use(
 
 // error handler
 app.use(
-    (error, request, response) =>
+    (error, request, response, next) =>
     {
-        const status = error.status || 500;
+        if (response.headersSent)
+        {
+            next(error);
 
-        response.status(status);
+            return;
+        }
+
+        response.status(error.status || 500);
         response.send(
             {
                 "error": true,

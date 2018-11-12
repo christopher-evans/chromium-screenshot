@@ -10,7 +10,7 @@ class Simple
     /**
      * Input constructor.
 
-     * @param {{respond: Function}} responder Responder
+     * @param {function} responder Responder
      * @param {string} contentType Content type
      *
      * @public

@@ -5,119 +5,62 @@
  * file that was distributed with this source code.
  */
 
-const logger = require("../../app/logger");
-
 /**
- * Worker producing a screenshot for a given request.
+ * Worker taking a screenshot of a given URL
  *
  * Uses a Chromium instance to render the page as an image.
  *
  * @author Christopher Evans <cmevans@tutanota.com>
  */
-class ImageWorker
+class Image
 {
     /**
-     * Log constructor.
-     *
-     * @param {Browser} browser Chromium instance
-     * @param {boolean} enableCache Enable / disable page cache
-     * @param {number} timeout Timeout when loading page in the browser
-     * @param {number} waitUntil Events that must be triggered before rendering the screenshot
+     * Image constructor.
+
+     * @param {number} timeout Page timeout
+     * @param {Array} waitUntil Array of events that should be triggered before the screenshot is taken
      *
      * @public
      */
-    constructor(browser, enableCache, timeout, waitUntil)
+    constructor(timeout, waitUntil)
     {
-        /**
-         * Chromium instance.
-         *
-         * @private
-         */
-        this.browser = browser;
-
-        /**
-         * Enable / disable page cache.
-         *
-         * @private
-         */
-        this.enableCache = enableCache;
-
-        /**
-         * Timeout when loading page in the browser.
-         *
-         * @private
-         */
         this.timeout = timeout;
-
-        /**
-         * Events that must be triggered before rendering the screenshot.
-         *
-         * @private
-         */
         this.waitUntil = waitUntil;
     }
 
     /**
-     * Render a screenshot for the given request parameters.
+     * Create screenshot and pass to worker callback.
      *
-     * @param {Object} request Screenshot request parameters
+     * @param {puppeteer.Page} page Browser page
+     * @param {Object} request Screenshot parameters
+     * @param {function} callback Worker callback
      *
-     * @returns {Buffer} Image data
-     * @throws {Error} On browser page errors
+     * @void
+     * @public
      */
-    async work(request)
+    async work(page, request, callback)
     {
-        const browserInstance = await this.browser.fetch();
-        const page = await browserInstance.newPage();
-        const notices = [];
+        try
+        {
+            callback(null, await this.screenshot(page, request));
+        }
+        catch (error)
+        {
+            callback(error, null);
+        }
+    }
 
-        // add listeners
-        page.on(
-            "error",
-            error =>
-            {
-                throw error;
-            }
-        );
-        page.on(
-            "pageerror",
-            error =>
-            {
-                throw error;
-            }
-        );
-
-        // @TODO make notices an object keyed by level
-        // then push to different levels
-        page.on(
-            "console",
-            message => logger.log(
-                "debug",
-                "Page console",
-                {
-                    "message": message.text()
-                }
-            )
-        );
-
-        page.on(
-            "requestfailed",
-            httpRequest =>
-            {
-                notices.push("Failed HTTP request: '" + httpRequest.method() + " " + httpRequest.url() + "'");
-
-                logger.log(
-                    "warn",
-                    "HTTP failed request",
-                    {
-                        "method": httpRequest.method(),
-                        "url": httpRequest.url()
-                    }
-                );
-            }
-        );
-
-        await page.setCacheEnabled(this.enableCache);
+    /**
+     * Create screenshot from a browser and screenshot parameters.
+     *
+     * @param {puppeteer.Page} page Browser page
+     * @param {Object} request Screenshot parameters
+     *
+     * @void
+     * @private
+     */
+    async screenshot(page, request)
+    {
         await page.setViewport(
             {
                 "width": request.width,
@@ -156,22 +99,8 @@ class ImageWorker
             };
         }
 
-        const imageBuffer = await page.screenshot(screenshotParameters);
-
-        // close page asynchronously
-        page.close()
-            .catch(
-                error => logger.log(
-                    "error",
-                    "Unable to close page",
-                    {
-                        "error": error
-                    }
-                )
-            );
-
-        return imageBuffer;
+        return page.screenshot(screenshotParameters);
     }
 }
 
-module.exports = ImageWorker;
+module.exports = Image;

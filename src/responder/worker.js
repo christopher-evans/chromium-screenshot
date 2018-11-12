@@ -5,6 +5,8 @@
  * file that was distributed with this source code.
  */
 
+const uuidv4 = require("uuid/v4");
+
 /**
  * Action responding to worker requests.
  *
@@ -15,26 +17,34 @@ class Worker
     /**
      * Worker constructor.
      *
-     * @param {function(Object): string} contentType Response content type
      * @param {Function} workers Worker farm
+     * @param {BrowserPool} browserPool Browser pool
+     * @param {function(Object): string} contentType Response content type
      *
      * @public
      */
-    constructor(contentType, workers)
+    constructor(workers, browserPool, contentType)
     {
-        /**
-         * Dynamic response content type.
-         *
-         * @private
-         */
-        this.contentType = contentType;
-
         /**
          * Queue worker.
          *
          * @private
          */
         this.workers = workers;
+
+        /**
+         * Browser.
+         *
+         * @private
+         */
+        this.browserPool = browserPool;
+
+        /**
+         * Dynamic response content type.
+         *
+         * @private
+         */
+        this.contentType = contentType;
     }
 
     /**
@@ -48,22 +58,30 @@ class Worker
     respond(parameters)
     {
         return new Promise(
-            (resolve, reject) =>
+            async (resolve, reject) =>
             {
+                // push request to the worker queue
+                const uuid = uuidv4();
+                const wsEndpoint = await this.browserPool.pushRequest(uuid);
+
                 this.workers(
+                    wsEndpoint,
                     parameters,
                     (error, result) =>
                     {
+                        // pop request off the worker queue
+                        this.browserPool.popRequest(uuid);
+
+
                         if (error)
                         {
-                            // @TODO wrap error for front end
+                            // @TODO make error generic for front end
                             return reject(error);
                         }
 
-                        const buffer = Buffer.from(result.data);
                         return resolve(
                             {
-                                "content": buffer,
+                                "content": Buffer.from(result.data),
                                 "contentType": this.contentType(parameters)
                             }
                         );

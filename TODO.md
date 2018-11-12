@@ -1,7 +1,7 @@
 - TLS
 - Add route to render PDF"
-- test error handling for workers & response
 - Add e2e tests (https://glebbahmutov.com/blog/how-to-correctly-unit-test-express-server/)
-- Overall worker timeout if workers hang somewhere
 - Explain how it works in docs
-- Write tests to ensure efficient concurrency (` ab -n 100 -c 10 -p params.json -m POST -T application/json http://localhost:8080/image`)
+- Write tests to ensure efficient concurrency (`ab -n 100 -c 10 -p params.json -m POST -T application/json http://localhost:8080/image`)
+- If the browser crashes, requests queued to that browser rely on the worker failing to be re-queued
+- <ake chromium instance configurable

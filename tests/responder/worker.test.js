@@ -5,16 +5,17 @@
  * file that was distributed with this source code.
  */
 
-// const assert = require("assert");
+const assert = require("assert");
 const {
+    it,
     afterEach,
     beforeEach,
     describe
 } = require("mocha");
 const sinon = require("sinon");
-// const asyncUtil = require("../async-util");
-// const { WorkerResponder } = require("../../src/responder");
-// const { ImageWorker } = require("../../src/worker");
+const asyncUtil = require("../async-util");
+const { WorkerResponder } = require("../../src/responder");
+const BrowserPool = require("../../src/browser-pool");
 
 describe(
     "Responder: Worker",
@@ -34,21 +35,21 @@ describe(
                 // restore logger state after each test
                 afterEach(() => sandBox.restore());
 
-                /*
                 it(
                     "should propagate errors from the worker",
                     async () =>
                     {
                         const error = new Error("ERROR");
                         const parameters = {};
-                        const responder = new WorkerResponder(() => "application/json", worker);
+                        const worker = sinon.stub();
+                        const browserPool = sinon.createStubInstance(BrowserPool);
+                        const responder = new WorkerResponder(worker, browserPool, () => "application/json");
 
-                        queue.push.callsArgWith(1, null, error);
+                        worker.callsArgWith(2, error, null);
 
-                        assert.equal(
-                            await asyncUtil.unwrap(() => responder.respond(parameters)),
-                            error
-                        );
+                        const result = await asyncUtil.unwrap(() => responder.respond(parameters));
+
+                        assert.equal(result, error);
                     }
                 );
 
@@ -56,11 +57,15 @@ describe(
                     "should identify content type",
                     async () =>
                     {
-                        const results = {};
+                        const results = {
+                            "data": []
+                        };
                         const parameters = {};
-                        const responder = new WorkerResponder(() => "application/json", worker);
+                        const worker = sinon.stub();
+                        const browserPool = sinon.createStubInstance(BrowserPool);
+                        const responder = new WorkerResponder(worker, browserPool, () => "application/json");
 
-                        queue.push.callsArgWith(1, results, null);
+                        worker.callsArgWith(2, null, results);
 
                         const { contentType } = await asyncUtil.unwrap(() => responder.respond(parameters));
                         assert.equal(contentType, "application/json");
@@ -71,17 +76,24 @@ describe(
                     "should propagate worker results",
                     async () =>
                     {
-                        const results = {};
+                        const bufferData = [255];
                         const parameters = {};
-                        const responder = new WorkerResponder(() => "application/json", worker);
+                        const worker = sinon.stub();
+                        const browserPool = sinon.createStubInstance(BrowserPool);
+                        const responder = new WorkerResponder(worker, browserPool, () => "application/json");
 
-                        queue.push.callsArgWith(1, results, null);
+                        worker.callsArgWith(
+                            2,
+                            null,
+                            {
+                                "data": bufferData
+                            }
+                        );
 
                         const { content } = await asyncUtil.unwrap(() => responder.respond(parameters));
-                        assert.equal(content, results);
+                        assert.deepEqual(content, Buffer.from(bufferData));
                     }
                 );
-                */
             }
         );
     }

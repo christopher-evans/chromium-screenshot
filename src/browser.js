@@ -5,39 +5,37 @@
  * file that was distributed with this source code.
  */
 
-const puppeteer = require("puppeteer");
+const EventEmitter = require("events");
 
 /**
  * Browser wraps a Chromium instance from Puppeteer.
  *
- * Ensures we have a single, always available browser instance.
+ * Maintains an array of requests pending for the instance to prevent disconnecting before all requests have completed.
  *
  * @author Christopher Evans <cmevans@tutanota.com>
  */
-class Browser
+class Browser extends EventEmitter
 {
     /**
      * Browser constructor.
      *
-     * @param {Array} flags Chromium instance flags
+     * @param {puppeteer.Browser} instance Chromium instance
      *
      * @public
      */
-    constructor(flags)
+    constructor(instance)
     {
-        /**
-         * Chromium instance flags.
-         *
-         * @private
-         */
-        this.flags = flags;
+        super();
+
+        // flag closed on disconnect (browser crashes)
+        instance.on("disconnected", this.flagClosed.bind(this));
 
         /**
          * Chromium instance.
          *
          * @private
          */
-        this.instance = null;
+        this.instance = instance;
 
         /**
          * Chromium instance promise.
@@ -46,57 +44,128 @@ class Browser
          *
          * @private
          */
-        this.promise = null;
+        this.requests = [];
+
+        /**
+         * Flag to indicate browser should close when requests are all finished.
+         *
+         * @private
+         */
+        this.pendingClose = false;
+
+        /**
+         * Flag to indicate browser has disconnected.
+         *
+         * @private
+         */
+        this.closed = false;
     }
 
     /**
-     * Fetch the current instance of the browser; or create a new one if not available.
+     * Push a request to the pending array
      *
-     * @returns {Promise<puppeteer.Browser>} Chromium instance promise
+     * @param {string} uuid Request uuid
      * @public
      */
-    fetch()
+    pushRequest(uuid)
     {
-        if (! this.promise)
+        if (this.pendingClose)
         {
-            this.promise = puppeteer.launch(
-                {
-                    "args": this.flags
-                }
-            )
-                .then(
-                    instance =>
-                    {
-                        // listen for browser closed / crashed
-                        instance.on("disconnected", this.clear.bind(this));
-
-                        this.instance = instance;
-
-                        return instance;
-                    }
-                );
+            throw new Error("Cannot add request to browser waiting to close");
         }
 
-        return this.promise;
+        this.requests.push(uuid);
     }
 
     /**
-     * Close the current instance and clear from the cache.
+     * Pop a request off the pending array.
      *
-     * @void
+     * Checks the pending close flag when the uuid represents the last remaining request
+     * for this browser instance.
+     *
+     * @param {string} uuid Request uuid
+     *
+     * @returns {boolean} True if the request uuid was present
      * @public
      */
-    clear()
+    popRequest(uuid)
     {
-        const { instance } = this;
-        if (instance)
+        const index = this.requests.indexOf(uuid);
+        if (index === - 1)
         {
-            instance.close();
+            return false;
         }
 
-        // set null here in case something else runs before the "disconnected" event
-        this.instance = null;
-        this.promise = null;
+        this.requests.splice(index, 1);
+        if (this.pendingClose && this.requests.length === 0)
+        {
+            this.flagForClosure();
+        }
+
+        return true;
+    }
+
+    /**
+     * Mark the request for closure when all pending requests have completed.
+     *
+     * @returns {Promise}
+     * @public
+     */
+    async flagForClosure()
+    {
+        this.pendingClose = true;
+        if (this.requests.length === 0)
+        {
+            await this.close();
+        }
+    }
+
+    /**
+     * Close chromium instance
+     *
+     * @returns {Promise}
+     * @private
+     */
+    async close()
+    {
+        if (! this.closed)
+        {
+            //
+            // @TODO wrap this in try / catch?
+            await this.instance.close();
+
+            this.flagClosed();
+        }
+    }
+
+    /**
+     * Flag instance as closed.
+     *
+     * Trigger "close" event.
+     * @private
+     */
+    flagClosed()
+    {
+        this.pendingClose = true;
+        this.closed = true;
+        this.emit("close", this);
+    }
+
+    /**
+     * Fetch the instance
+     *
+     * @returns {puppeteer.Browser}
+     * @throws {Error} If the instance is flagged for closure, or has been closed
+     * @public
+     */
+    getInstance()
+    {
+        if (this.pendingClose)
+        {
+            throw new Error("Cannot fetch browser pending close");
+        }
+
+        return this.instance;
     }
 }
 

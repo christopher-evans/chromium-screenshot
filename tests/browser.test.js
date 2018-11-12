@@ -5,24 +5,22 @@
  * file that was distributed with this source code.
  */
 
-const assert = require("assert");
+// const assert = require("assert");
 const {
-    afterEach,
-    beforeEach,
-    describe,
-    it
+    describe
 } = require("mocha");
-const sinon = require("sinon");
-const puppeteer = require("puppeteer");
-const EventEmitter = require("events");
-const Browser = require("../src/browser");
+// const sinon = require("sinon");
+// const puppeteer = require("puppeteer");
+// const EventEmitter = require("events");
+// const Browser = require("../src/browser");
 
 describe(
     "Browser",
     () =>
     {
-        const sandBox = sinon.createSandbox();
+        // const sandBox = sinon.createSandbox();
 
+        /*
         describe(
             "#fetch()",
             () =>
@@ -181,5 +179,6 @@ describe(
                 );
             }
         );
+        */
     }
 );

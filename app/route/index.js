@@ -5,12 +5,12 @@
  * file that was distributed with this source code.
  */
 
-const Image = require("./image");
-const Page = require("./page");
-const Puppeteer = require("./puppeteer");
+const image = require("./image");
+const log = require("./log");
+const ping = require("./ping");
 
 module.exports = {
-    "ImageWorker": Image,
-    "PageWorker": Page,
-    "PuppeteerWorker": Puppeteer
+    "image": image,
+    "log": log,
+    "ping": ping
 };
