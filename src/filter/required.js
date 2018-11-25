@@ -8,7 +8,7 @@
 const { FilterError } = require("../error");
 const type = require("../type");
 
-const required = source =>
+const requiredFilter = source =>
     value =>
     {
         if (type.undefined(value))
@@ -19,4 +19,4 @@ const required = source =>
         return source(value);
     };
 
-module.exports = required;
+module.exports = requiredFilter;

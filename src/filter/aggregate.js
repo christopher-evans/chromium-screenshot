@@ -4,10 +4,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 const { AggregateError, FilterError } = require("../error");
 const type = require("../type");
 
-const aggregate = map =>
+const aggregateFilter = map =>
     value =>
     {
         if (! type.object(value))
@@ -35,10 +36,10 @@ const aggregate = map =>
         if (errors.size > 0)
         {
             // @TODO create aggregate error
-            throw new AggregateError(errors, "Invalid input");
+            throw new AggregateError("Invalid input", errors);
         }
 
         return result;
     };
 
-module.exports = aggregate;
+module.exports = aggregateFilter;

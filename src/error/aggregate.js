@@ -11,7 +11,7 @@ const FilterError = require("./filter");
 
 class AggregateError extends FilterError
 {
-    constructor(errors, message)
+    constructor(message, errors)
     {
         super(message);
 

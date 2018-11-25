@@ -8,7 +8,7 @@
 const { FilterError } = require("../error");
 const type = require("../type");
 
-const subset = haystack =>
+const subsetFilter = haystack =>
     value =>
     {
         if (! type.iterable(value))
@@ -29,4 +29,4 @@ const subset = haystack =>
         return value;
     };
 
-module.exports = subset;
+module.exports = subsetFilter;

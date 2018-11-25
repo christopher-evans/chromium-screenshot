@@ -5,37 +5,30 @@
  * file that was distributed with this source code.
  */
 
+const regexFilter = require("./regex");
 const { FilterError } = require("../error");
-const type = require("../type");
 
-const regex = new RegExp(
+const dateRegex = new RegExp(
     "^\\d{4}-\\d{2}-\\d{2}" + // Match YYYY-MM-DD
     "((T\\d{2}:\\d{2}(:\\d{2})?)" + // Match THH:mm:ss
     "(\\.\\d{1,6})?" + // Match .sssss
     "(Z|(\\+|-)\\d{2}:\\d{2})?)?$" // Time zone (Z or +hh:mm)
 );
 
+const sourceFilter = regexFilter(dateRegex);
 const filter = value =>
 {
-    if (! type.string(value))
+    const checkedValue = sourceFilter(value);
+
+    const unixMilliseconds = Date.parse(checkedValue);
+    if (Number.isNaN(unixMilliseconds))
     {
-        throw new FilterError("invalid date: not a string");
+        throw new FilterError("failed to parse date '" + checkedValue + "'");
     }
 
-    if (! regex.test(value))
-    {
-        throw new FilterError("invalid date '" + value + "': format not recognised");
-    }
-
-    const date = Date.parse(value);
-    if (Number.isNaN(date))
-    {
-        throw new FilterError("failed to parse date '" + value + "'");
-    }
-
-    return date;
+    return new Date(unixMilliseconds);
 };
 
-const date = () => filter;
+const dateFilter = () => filter;
 
-module.exports = date;
+module.exports = dateFilter;

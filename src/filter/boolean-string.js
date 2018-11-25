@@ -18,6 +18,6 @@ const filter = value =>
     return value.length !== 0 && value !== "0";
 };
 
-const booleanString = () => filter;
+const booleanStringFilter = () => filter;
 
-module.exports = booleanString;
+module.exports = booleanStringFilter;

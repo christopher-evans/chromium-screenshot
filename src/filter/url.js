@@ -24,6 +24,6 @@ const filter = value =>
     return value;
 };
 
-const url = () => filter;
+const urlFilter = () => filter;
 
-module.exports = url;
+module.exports = urlFilter;

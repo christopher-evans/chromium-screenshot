@@ -19,6 +19,6 @@ const filter = value =>
     return path.resolve(value);
 };
 
-const absolutePath = () => filter;
+const absolutePathFilter = () => filter;
 
-module.exports = absolutePath;
+module.exports = absolutePathFilter;

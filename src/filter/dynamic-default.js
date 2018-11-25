@@ -7,7 +7,7 @@
 
 const type = require("../type");
 
-const dynamicDefault = (source, defaultValue) =>
+const dynamicDefaultFilter = (source, defaultValue) =>
     value =>
     {
         if (type.undefined(value))
@@ -18,4 +18,4 @@ const dynamicDefault = (source, defaultValue) =>
         return source(value);
     };
 
-module.exports = dynamicDefault;
+module.exports = dynamicDefaultFilter;

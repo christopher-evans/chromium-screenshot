@@ -24,6 +24,6 @@ const filter = value =>
     return value;
 };
 
-const ip = () => filter;
+const ipFilter = () => filter;
 
-module.exports = ip;
+module.exports = ipFilter;

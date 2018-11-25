@@ -29,7 +29,7 @@
     "docs": "mkdocs build",
     "lint": "eslint .",
     "start": "node app/cluster.js",
-    "test": "nyc --reporter=html mocha --recursive"
+    "test": "nyc mocha --recursive"
   },
   "config": {
     "chrome": "--disable-dev-shm-usage",
@@ -89,6 +89,10 @@
     ],
     "include": [
       "src/**/*"
+    ],
+    "reporter": [
+      "text-summary",
+      "html"
     ]
   }
 }

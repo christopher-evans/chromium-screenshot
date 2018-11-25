@@ -8,26 +8,20 @@
 const { FilterError } = require("../error");
 const type = require("../type");
 
-const defaultRegex = /^\d+(?:\.\d+)?(?:cm|in|mm|px)$/i;
-
 const regexFilter = regex =>
-{
-    const finalRegex = regex || defaultRegex;
-
-    return value =>
+    value =>
     {
         if (! type.string(value))
         {
             throw new FilterError("invalid value: not a string");
         }
 
-        if (! finalRegex.test(value))
+        if (! regex.test(value))
         {
             throw new FilterError("invalid value: " + value);
         }
 
         return value;
     };
-};
 
 module.exports = regexFilter;

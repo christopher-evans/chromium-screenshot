@@ -9,7 +9,7 @@ const sanitizeHtml = require("sanitize-html");
 const { FilterError } = require("../error");
 const type = require("../type");
 
-const html = settings =>
+const htmlFilter = settings =>
     value =>
     {
         if (type.string(value))
@@ -20,4 +20,4 @@ const html = settings =>
         return sanitizeHtml(value, settings);
     };
 
-module.exports = html;
+module.exports = htmlFilter;

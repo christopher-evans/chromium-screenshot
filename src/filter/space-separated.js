@@ -18,6 +18,6 @@ const filter = value =>
     return value.split(" ").filter(entry => entry.length > 0);
 };
 
-const stringSeparated = () => filter;
+const stringSeparatedFilter = () => filter;
 
-module.exports = stringSeparated;
+module.exports = stringSeparatedFilter;

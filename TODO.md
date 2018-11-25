@@ -7,3 +7,4 @@
 - Make chromium instance configurable
 - Tests for when browser ws connection failes
 - Error handling for all middleware
+- Check what happens for nonsense dates (2016-14-99 etc.)

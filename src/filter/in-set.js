@@ -7,7 +7,7 @@
 
 const { FilterError } = require("../error");
 
-const inSet = haystack =>
+const inSetFilter = haystack =>
     value =>
     {
         if (! haystack.has(value))
@@ -18,4 +18,4 @@ const inSet = haystack =>
         return value;
     };
 
-module.exports = inSet;
+module.exports = inSetFilter;
