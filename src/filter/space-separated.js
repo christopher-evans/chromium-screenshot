@@ -5,35 +5,19 @@
  * file that was distributed with this source code.
  */
 
-const check = require("check-types");
+const { FilterError } = require("../error");
+const type = require("../type");
 
-/**
- * Filter that splits space separated strings into an array.
- *
- * Empty strings are filtered from the result.
- *
- * @author Christopher Evans <cmevans@tutanota.com>
- */
-class SpaceSeparated
+const filter = value =>
 {
-    /**
-     * Apply filter to a value.
-     *
-     * @param {string} value
-     *
-     * @returns {Array} Array of values with not spaces.
-     * @throws {TypeError} If the value is not a string
-     * @public
-     */
-    filter(value)
+    if (! type.string(value))
     {
-        if (! check.string(value))
-        {
-            throw new Error("invalid value: not a string");
-        }
-
-        return value.split(" ").filter(entry => entry.length > 0);
+        throw new FilterError("invalid value: not a string");
     }
-}
 
-module.exports = SpaceSeparated;
+    return value.split(" ").filter(entry => entry.length > 0);
+};
+
+const stringSeparated = () => filter;
+
+module.exports = stringSeparated;

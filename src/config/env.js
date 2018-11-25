@@ -5,87 +5,21 @@
  * file that was distributed with this source code.
  */
 
-/**
- * Configuration for use with node `process.env`.
- *
- * The prefix `"npm_package_config_"` is stripped from config values and a filter applied.
- *
- * @author Christopher Evans <cmevans@tutanota.com>
- */
-class Env
+const envConfig = (values, prefix, filter) =>
 {
-    /**
-     * Env constructor.
-     *
-     * @param {Object} env Node `process.env` object
-     * @param {string} prefix Config key prefix
-     * @param {{filter: Function}} filter Filters to apply to config values
-     *
-     * @public
-     */
-    constructor(env, prefix, filter)
-    {
-        /**
-         * Node `process.env` object.
-         *
-         * @private
-         */
-        this.env = env;
+    const value = key => values[prefix + key];
 
-        /**
-         * Prefix to strip from config values.
-         *
-         * @private
-         */
-        this.prefix = prefix;
+    return keys => filter(
+        Array.from(keys).reduce(
+            (config, key) =>
+            {
+                config[key] = value(key);
 
-        /**
-         * Filter to apply to configuration object.
-         *
-         * @private
-         */
-        this.filter = filter;
-    }
+                return config;
+            },
+            {}
+        )
+    );
+};
 
-    /**
-     * Fetch config values for an array of keys.
-     *
-     * Applies the instance filters to the values.
-     *
-     * @param {Array} keys
-     *
-     * @returns {Object.<string, *>}
-     * @public
-     */
-    fetch(keys)
-    {
-        return this.filter.filter(
-            keys.reduce(
-                (config, key) =>
-                {
-                    config[key] = this.value(key);
-
-                    return config;
-                },
-                {}
-            )
-        );
-    }
-
-    /**
-     * Fetch a single raw configuration value by key.
-     *
-     * Key should not include the prefix.
-     *
-     * @param {string} key
-     *
-     * @returns {*}
-     * @private
-     */
-    value(key)
-    {
-        return this.env[this.prefix + key];
-    }
-}
-
-module.exports = Env;
+module.exports = envConfig;

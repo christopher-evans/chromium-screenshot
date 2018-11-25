@@ -5,34 +5,37 @@
  * file that was distributed with this source code.
  */
 
-const check = require("check-types");
-const isostring = require("isostring");
+const { FilterError } = require("../error");
+const type = require("../type");
 
-/**
- * Filter that parses ISO8601 dates into a Date object.
- *
- * @author Christopher Evans <cmevans@tutanota.com>
- */
-class DateFilter
+const regex = new RegExp(
+    "^\\d{4}-\\d{2}-\\d{2}" + // Match YYYY-MM-DD
+    "((T\\d{2}:\\d{2}(:\\d{2})?)" + // Match THH:mm:ss
+    "(\\.\\d{1,6})?" + // Match .sssss
+    "(Z|(\\+|-)\\d{2}:\\d{2})?)?$" // Time zone (Z or +hh:mm)
+);
+
+const filter = value =>
 {
-    /**
-     * Apply filter to a value.
-     *
-     * @param {string} value
-     *
-     * @returns {Date}
-     * @throws {TypeError} If value is not a string
-     * @public
-     */
-    filter(value)
+    if (! type.string(value))
     {
-        if (! check.string(value) || ! isostring(value))
-        {
-            throw new Error("invalid date: '" + value + "'");
-        }
-
-        return new Date(value);
+        throw new FilterError("invalid date: not a string");
     }
-}
 
-module.exports = DateFilter;
+    if (! regex.test(value))
+    {
+        throw new FilterError("invalid date '" + value + "': format not recognised");
+    }
+
+    const date = Date.parse(value);
+    if (Number.isNaN(date))
+    {
+        throw new FilterError("failed to parse date '" + value + "'");
+    }
+
+    return date;
+};
+
+const date = () => filter;
+
+module.exports = date;

@@ -19,7 +19,7 @@
     "email": "cmevans@tutanota.com",
     "url": "https://github.com/christopher-evans"
   },
-  "main": "src/index.js",
+  "main": "app/cluster.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/christopher-evans/chromium-screenshot.git"
@@ -28,15 +28,11 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "docs": "mkdocs build",
     "lint": "eslint .",
-    "start": "node app/server.js",
-    "test": "nyc --reporter=html mocha tests/**.test.js tests/**/*.test.js"
+    "start": "node app/cluster.js",
+    "test": "nyc --reporter=html mocha --recursive"
   },
   "config": {
-    "browser": {
-      "restart_interval": "3600000",
-      "flags": "--disable-dev-shm-usage --no-sandbox"
-    },
-    "debug": "1",
+    "chrome": "--disable-dev-shm-usage",
     "log": {
       "console": {
         "enable": "1",
@@ -48,37 +44,31 @@
         "path": "log/app.log"
       }
     },
-    "port": "8080",
-    "render": {
-      "cache": "0",
-      "timeout": "5000",
-      "wait_until": "load"
-    },
-    "route": {
-      "document": "/document",
-      "image": "/image",
-      "log": "/log",
-      "ping": "/ping"
+    "queue_concurrency": 32,
+    "server": {
+      "backlog": 511,
+      "body_max_size": "56kb",
+      "host": "127.0.0.1",
+      "port": 3000
     },
     "worker": {
-      "concurrent_calls": "10",
-      "timeout": 20000
+      "concurrency": 8,
+      "discard_timeout": 2000,
+      "respawn_wait": 500
     }
   },
   "dependencies": {
-    "body-parser": "^1.18.0",
-    "check-types": "^7.4.0",
-    "express": "^4.16.0",
-    "express-winston": "^3.0.0",
-    "helmet": "^3.15.0",
-    "isostring": "0.0.1",
+    "koa": "^2.6.2",
+    "koa-body": "^4.0.4",
+    "koa-router": "^7.4.0",
+    "node-statsd": "^0.1.1",
+    "p-queue": "^3.0.0",
     "puppeteer": "^1.10.0",
-    "sanitize-html": "^1.19.0",
-    "uuid": "^3.3.2",
-    "valid-url": "^1.0.0",
+    "sanitize-html": "^1.19.1",
+    "valid-url": "^1.0.9",
+    "validate-ip-node": "^1.0.6",
     "winston": "^3.1.0",
-    "winston-transport": "^4.2.0",
-    "worker-farm": "^1.6.0"
+    "winston-transport": "^4.2.0"
   },
   "devDependencies": {
     "coveralls": "^3.0.2",
@@ -86,17 +76,19 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
     "mocha": "^5.2.0",
-    "node-mocks-http": "^1.7.3",
     "nyc": "^13.1.0",
-    "sinon": "^7.1.1",
-    "snyk": "^1.108.0"
+    "sinon": "^7.1.1"
   },
   "engines": {
     "node": ">=8.0.0"
   },
   "nyc": {
+    "all": true,
+    "extension": [
+      ".js"
+    ],
     "include": [
-      "src/**/*.js"
+      "src/**/*"
     ]
   }
 }

@@ -5,25 +5,8 @@
  * file that was distributed with this source code.
  */
 
-/**
- * Filter that casts all input to boolean.
- *
- * @author Christopher Evans <cmevans@tutanota.com>
- */
-class Boolean
-{
-    /**
-     * Apply filter to a value.
-     *
-     * @param {*} value
-     *
-     * @returns {boolean}
-     * @public
-     */
-    filter(value)
-    {
-        return !! value;
-    }
-}
+const filter = value => !! value;
 
-module.exports = Boolean;
+const booleanFilter = () => filter;
+
+module.exports = booleanFilter;

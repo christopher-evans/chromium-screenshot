@@ -4,67 +4,41 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+const { AggregateError, FilterError } = require("../error");
+const type = require("../type");
 
-const check = require("check-types");
-
-/**
- * Applies a hash map of filters to a hash map of values.
- *
- * Input must be an object of key value pairs, values can be mixed.
- *
- * @author Christopher Evans <cmevans@tutanota.com>
- */
-class Aggregate
-{
-    /**
-     * Aggregate constructor.
-     *
-     * @param {Object.<string, {filter: Function}>} map Hash map of filters
-     *
-     * @throws {TypeError} If the map is not an object
-     * @public
-     */
-    constructor(map)
+const aggregate = map =>
+    value =>
     {
-        if (! check.object(map))
+        if (! type.object(value))
         {
-            throw new TypeError("invalid map: not an object");
+            throw new FilterError("invalid aggregate: not an object");
         }
 
-        /**
-         * Hash map of filters.
-         *
-         * @private
-         */
-        this.map = map;
-    }
-
-    /**
-     * Apply filters to a hash map.
-     *
-     * @param {Object.<string, *>} object Hash map of values
-     *
-     * @returns {Object.<string, *>}
-     * @throws {TypeError} If value is not an object
-     * @public
-     */
-    filter(object)
-    {
-        if (! check.object(object))
-        {
-            throw new TypeError("invalid input: not an object");
-        }
-
-        return Object.entries(this.map).reduce(
-            (values, [key, filter]) =>
+        const result = {};
+        const errors = new Map();
+        map.forEach(
+            (filter, key) =>
             {
-                values[key] = filter.filter(object[key]);
-
-                return values;
-            },
-            {}
+                try
+                {
+                    result[key] = filter(value[key]);
+                }
+                catch (error)
+                {
+                    // @TODO add key to error message
+                    errors.set(key, error);
+                }
+            }
         );
-    }
-}
 
-module.exports = Aggregate;
+        if (errors.size > 0)
+        {
+            // @TODO create aggregate error
+            throw new AggregateError(errors, "Invalid input");
+        }
+
+        return result;
+    };
+
+module.exports = aggregate;

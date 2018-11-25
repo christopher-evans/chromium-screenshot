@@ -6,34 +6,24 @@
  */
 
 const validUrl = require("valid-url");
+const { FilterError } = require("../error");
+const type = require("../type");
 
-/**
- * Filter that validates urls.
- *
- * Uses the valid-url package.
- *
- * @author Christopher Evans <cmevans@tutanota.com>
- */
-class Url
+const filter = value =>
 {
-    /**
-     * Apply filter to a value.
-     *
-     * @param {string} value
-     *
-     * @returns {string} Identical in input parameter
-     * @throws {Error} If the input is not a valid URL.
-     * @public
-     */
-    filter(value)
+    if (! type.string(value))
     {
-        if (! validUrl.isUri(value))
-        {
-            throw new Error("invalid URL");
-        }
-
-        return value;
+        throw new FilterError("invalid url: not a string");
     }
-}
 
-module.exports = Url;
+    if (! validUrl.isUri(value))
+    {
+        throw new FilterError("invalid url: unable to parse URL");
+    }
+
+    return value;
+};
+
+const url = () => filter;
+
+module.exports = url;

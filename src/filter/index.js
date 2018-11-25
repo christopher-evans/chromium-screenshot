@@ -5,38 +5,39 @@
  * file that was distributed with this source code.
  */
 
-const Aggregate = require("./aggregate");
-const Boolean = require("./boolean");
-const BooleanString = require("./boolean-string");
-const Date = require("./date");
-const Default = require("./default");
-const DynamicDefault = require("./dynamic-default");
-const Html = require("./html");
-const InArray = require("./in-array");
-const IsArray = require("./is-array");
-const Number = require("./number");
-const Path = require("./path");
-const Required = require("./required");
-const SpaceSeparated = require("./space-separated");
-const Unit = require("./unit");
-const Url = require("./url");
-const UrlPath = require("./url-path");
+const absolutePathFilter = require("./absolute-path");
+const aggregateFilter = require("./aggregate");
+const booleanFilter = require("./boolean");
+const booleanStringFilter = require("./boolean-string");
+const dateFilter = require("./date");
+const defaultFilter = require("./default");
+const dynamicDefaultFilter = require("./dynamic-default");
+const htmlFilter = require("./html");
+const inSetFilter = require("./in-set");
+const ipFilter = require("./ip");
+const numberFilter = require("./number");
+const regexFilter = require("./regex");
+const requiredFilter = require("./required");
+const spaceSeparatedFilter = require("./space-separated");
+const subsetFilter = require("./subset");
+const urlFilter = require("./url");
 
-module.exports = {
-    "AggregateFilter": Aggregate,
-    "BooleanFilter": Boolean,
-    "BooleanStringFilter": BooleanString,
-    "DateFilter": Date,
-    "DefaultFilter": Default,
-    "DynamicDefaultFilter": DynamicDefault,
-    "HtmlFilter": Html,
-    "InArrayFilter": InArray,
-    "IsArrayFilter": IsArray,
-    "NumberFilter": Number,
-    "PathFilter": Path,
-    "RequiredFilter": Required,
-    "SpaceSeparatedFilter": SpaceSeparated,
-    "UnitFilter": Unit,
-    "UrlFilter": Url,
-    "UrlPathFilter": UrlPath
-};
+module.exports =
+    {
+        absolutePathFilter,
+        aggregateFilter,
+        booleanFilter,
+        booleanStringFilter,
+        dateFilter,
+        defaultFilter,
+        dynamicDefaultFilter,
+        htmlFilter,
+        inSetFilter,
+        ipFilter,
+        numberFilter,
+        regexFilter,
+        requiredFilter,
+        spaceSeparatedFilter,
+        subsetFilter,
+        urlFilter
+    };

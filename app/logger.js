@@ -5,13 +5,12 @@
  * file that was distributed with this source code.
  */
 
-const fs = require("fs");
 const winston = require("winston");
 const config = require("./config");
 
 const logger = winston.createLogger(
     {
-        "name": "app.log",
+        "levels": winston.config.syslog.levels,
         "format": winston.format.combine(
             winston.format.timestamp(),
             winston.format.json()
@@ -20,33 +19,24 @@ const logger = winston.createLogger(
     }
 );
 
-if (config.log_file_enable)
+if (config.get("log_file_enable"))
 {
-    const path = config.log_file_path;
-    if (! fs.existsSync(path))
-    {
-        fs.writeFileSync(path, "");
-    }
-
-    // throws an error on failure
-    fs.accessSync(path, fs.constants.W_OK);
     logger.add(
         new winston.transports.File(
             {
-                "filename": path,
-                "level": config.log_console_level
+                "filename": config.get("log_file_path"),
+                "level": config.get("log_console_level")
             }
         )
     );
 }
 
-if (config.log_console_enable)
+if (config.get("log_console_enable"))
 {
     logger.add(
         new winston.transports.Console(
             {
-                "format": winston.format.simple(),
-                "level": config.log_console_level
+                "level": config.get("log_console_level")
             }
         )
     );

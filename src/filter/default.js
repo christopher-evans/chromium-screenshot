@@ -5,71 +5,17 @@
  * file that was distributed with this source code.
  */
 
-/**
- * Filter that returns a default if the input is empty.
- *
- * A Default filter wraps another filter which is applied for non-empty input.
- *
- * Input is said to be empty if it is not `undefined`.
- *
- * @author Christopher Evans <cmevans@tutanota.com>
- */
-class Default
-{
-    /**
-     * Default constructor.
-     *
-     * @param {{filter: Function}} source Source filter
-     * @param {*} defaultValue Default value
-     * @public
-     */
-    constructor(source, defaultValue)
-    {
-        /**
-         * Source filter.
-         *
-         * @private
-         */
-        this.source = source;
+const type = require("../type");
 
-        /**
-         * Default value.
-         *
-         * @private
-         */
-        this.defaultValue = defaultValue;
-    }
-
-    /**
-     * Apply filter to a value.
-     *
-     * @param {*} value
-     *
-     * @returns {*}
-     * @public
-     */
-    filter(value)
+const defaultFilter = (source, defaultValue) =>
+    value =>
     {
-        if (this.empty(value))
+        if (type.undefined(value))
         {
-            return this.defaultValue;
+            return defaultValue;
         }
 
-        return this.source.filter(value);
-    }
+        return source(value);
+    };
 
-    /**
-     * Determine if a value is empty.
-     *
-     * @param {*} value
-     *
-     * @returns {boolean}
-     * @private
-     */
-    empty(value)
-    {
-        return value === undefined;
-    }
-}
-
-module.exports = Default;
+module.exports = defaultFilter;

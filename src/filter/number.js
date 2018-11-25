@@ -5,78 +5,35 @@
  * file that was distributed with this source code.
  */
 
-/**
- * Filter that parses and validates integer values.
- *
- * @author Christopher Evans <cmevans@tutanota.com>
- */
-class NumberFilter
+const { FilterError } = require("../error");
+
+const defaultParser = Number.parseInt;
+
+const numberFilter = (min, max, parser) =>
 {
-    /**
-     * NumberFilter constructor.
-     *
-     * @param {number} min Minimum value
-     * @param {number} max Maximum value
-     * @param {number} parser Parser applied to input, defaults to `Number.parseInt`
-     *
-     * @public
-     */
-    constructor(min, max, parser)
+    const finalParser = parser || defaultParser;
+
+    return value =>
     {
-        /**
-         * Minimum value.
-         *
-         * @private
-         */
-        this.min = min;
+        const clean = finalParser(value);
 
-        /**
-         * Maximum value.
-         *
-         * @private
-         */
-        this.max = max;
-
-        /**
-         * Parser applied to input.
-         *
-         * @private
-         */
-        this.parser = parser || NumberFilter.defaultParser;
-    }
-
-    /**
-     * Apply filter to a value.
-     *
-     * @param {*} value
-     *
-     * @returns {number}
-     * @throws {TypeError} If the value is not an array
-     * @throws {Error} If the value cannot be parsed or lies outside min and max values.
-     * @public
-     */
-    filter(value)
-    {
-        const clean = this.parser(value);
         if (! Number.isFinite(clean))
         {
-            throw new Error("invalid number: " + value);
+            throw new FilterError("invalid value: not a number");
         }
 
-        if (Number.isFinite(this.min) && clean < this.min)
+        if (Number.isFinite(min) && clean < min)
         {
-            throw new Error("invalid number: " + clean + " must be greater than " + this.min);
+            throw new FilterError("invalid number: must be at least " + min);
         }
 
-        if (Number.isFinite(this.max) && clean > this.max)
+        if (Number.isFinite(max) && clean > max)
         {
-            throw new Error("invalid number: " + clean + " must be less than " + this.max);
+            throw new FilterError("invalid number: must be at most " + max);
         }
 
         return clean;
-    }
-}
+    };
+};
 
-NumberFilter.defaultParser = value => Number.parseInt(value, 10);
-
-module.exports = NumberFilter;
+module.exports = numberFilter;

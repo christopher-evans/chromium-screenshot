@@ -5,85 +5,37 @@
  * file that was distributed with this source code.
  */
 
-const bodyParser = require("body-parser");
-const express = require("express");
-const expressWinston = require("express-winston");
-const helmet = require("helmet");
-const logger = require("./logger");
+const Koa = require("koa");
 const router = require("./router");
+const logger = require("./logger");
+const metrics = require("./metrics");
+const {
+    cacheMiddleware,
+    errorMiddleware,
+    requestLogMiddleware,
+    notFoundMiddleware,
+    securityMiddleware
+} = require("../src/middleware");
 
-// init app
-const app = express();
-app.use(helmet());
-app.use(bodyParser.json());
+const app = new Koa();
 
-// don't generate e-tags
-app.set("etag fn", null);
+// set up logging above error middleware
+// errors in the log middleware will be handled
+// by the default Koa error handler
+app.use(requestLogMiddleware(logger, metrics));
 
+// add error handling before all remaining middleware
+app.use(errorMiddleware(logger));
 
-// express-winston logger makes sense BEFORE the router
-app.use(
-    expressWinston.logger(
-        {
-            "winstonInstance": logger,
-            "level": "debug",
-            "meta": true,
-            "msg": "{{req.ip}} - {{req.hostname}} '{{req.method}} {{req.baseUrl}}'"
-                + " {{res.statusCode}} {{res._contentLength}} {{res.responseTime}}ms"
-        }
-    )
-);
+// set / remove security / cache headers
+app.use(securityMiddleware());
+app.use(cacheMiddleware());
 
-// now we can tell the app to use our routing code:
-app.use(router);
+// app routes
+app.use(router.routes());
+app.use(router.allowedMethods());
 
-
-// express-winston errorLogger makes sense AFTER the router.
-app.use(
-    expressWinston.errorLogger(
-        {
-            "winstonInstance": logger,
-            "level": "error"
-        }
-    )
-);
-
-
-// handle 404
-app.use(
-    (request, response) =>
-    {
-        response.status(404);
-
-        response.send(
-            {
-                "error": true,
-                "message": "Not found"
-            }
-        );
-    }
-);
-
-
-// error handler
-app.use(
-    (error, request, response, next) =>
-    {
-        if (response.headersSent)
-        {
-            next(error);
-
-            return;
-        }
-
-        response.status(error.status || 500);
-        response.send(
-            {
-                "error": true,
-                "message": error.message
-            }
-        );
-    }
-);
+// fall through to 404
+app.use(notFoundMiddleware());
 
 module.exports = app;
