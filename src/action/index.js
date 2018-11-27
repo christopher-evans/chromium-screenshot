@@ -7,11 +7,9 @@
 
 const logQueryAction = require("./log-query");
 const queueAction = require("./queue");
-const workerAction = require("./worker");
 
 module.exports =
     {
         logQueryAction,
-        queueAction,
-        workerAction
+        queueAction
     };

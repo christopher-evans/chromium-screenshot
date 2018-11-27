@@ -88,7 +88,7 @@ router.post(
                 Object.entries(
                     {
                         "url": requiredFilter(urlFilter()),
-                        "format": defaultFilter(inSetFilter(new Set(["png", "jpeg"]), "png")),
+                        "format": defaultFilter(inSetFilter(["png", "jpeg"], "png")),
                         "width": defaultFilter(numberFilter(0, 1 << 16), 800),
                         "height": defaultFilter(numberFilter(0, 1 << 16), 800),
                         "quality": defaultFilter(numberFilter(0, 100), 100),

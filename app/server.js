@@ -22,6 +22,7 @@ server.on(
 
 server.listen(
     {
+        "server_host": config.get("server_host"),
         "port": config.get("server_port"),
         "backlog": config.get("server_backlog")
     },

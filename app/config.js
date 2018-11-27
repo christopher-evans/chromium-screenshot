@@ -16,7 +16,8 @@ const {
     ipFilter,
     numberFilter,
     regexFilter,
-    requiredFilter
+    requiredFilter,
+    spaceSeparatedFilter
 } = require("../src/filter/index");
 
 const config = () =>
@@ -27,6 +28,10 @@ const config = () =>
     // keys with required values
     Object.entries(
         {
+            "browser_restart_interval": numberFilter(60 * 1000, 24 * 60 * 60 * 1000),
+            "browser_discard_wait": numberFilter(0, 5 * 60 * 1000),
+            "chrome_flags": spaceSeparatedFilter(),
+            "chrome_timeout": numberFilter(0, 5 * 60 * 1000),
             "log_console_enable": booleanStringFilter(),
             "log_console_level": inSetFilter(logLevels),
             "log_file_enable": booleanStringFilter(),

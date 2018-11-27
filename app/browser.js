@@ -12,16 +12,16 @@ const logger = require("./logger");
 // launch browser
 const discardedBrowsers = new Set();
 
-const browserDiscard = new BrowserDiscard(15 * 1000, discardedBrowsers, logger);
+const browserDiscard = new BrowserDiscard(config.get("browser_discard_timeout"), discardedBrowsers, logger);
 const browser = new BrowserInstance(
     {
-        "args": ["--disable-dev-shm-usage", "--no-sandbox"]
+        "args": config.get("chrome_flags")
     },
     browserDiscard,
     logger
 );
 
 // don't re-use a single instance too long
-setInterval(browser.restart.bind(browser), 10 * 1000);
+setInterval(browser.restart.bind(browser), config.get("chrome_timeout"));
 
 module.exports = browser;
