@@ -32,7 +32,14 @@
     "test": "nyc mocha --recursive"
   },
   "config": {
-    "chrome": "--disable-dev-shm-usage",
+    "browser": {
+      "discard_wait": 10000,
+      "restart_interval": 3600000
+    },
+    "chrome": {
+      "flags": "--disable-dev-shm-usage",
+      "timeout": 30000
+    },
     "log": {
       "console": {
         "enable": "1",
