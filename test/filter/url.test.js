@@ -7,20 +7,19 @@
 
 const assert = require("assert");
 const { describe, it } = require("mocha");
-const path = require("path");
-const { absolutePathFilter } = require("../../src/filter");
+const { urlFilter } = require("../../src/filter");
 const { FilterError } = require("../../src/error");
 const type = require("../../src/type");
 
 describe(
-    "Filter: absolutePath",
+    "Filter: url",
     () =>
     {
         describe(
             "::invoke",
             () =>
             {
-                const filter = absolutePathFilter();
+                const filter = urlFilter();
 
                 it(
                     "should error for non-string values",
@@ -43,9 +42,9 @@ describe(
                     () =>
                     {
                         const strings = [
-                            "tmp.txt",
-                            "../../",
-                            "."
+                            "https://google.com",
+                            "ftp://url.com",
+                            "mailto:example@example.com"
                         ];
 
                         strings.forEach(value => assert(type.string(filter(value))));
@@ -53,16 +52,18 @@ describe(
                 );
 
                 it(
-                    "should resolve arguments to an absolute path",
+                    "should error for invalid URLs",
                     () =>
                     {
-                        const files = [
-                            "tmp.txt",
-                            "../../",
-                            "."
+                        // don't check the URL spec, just make sure we get the right error for
+                        // some obvious failures
+                        const strings = [
+                            "not-a-url",
+                            "--",
+                            ""
                         ];
 
-                        files.forEach(file => assert(path.isAbsolute(filter(file))));
+                        strings.forEach(value => assert.throws(() => filter(value)), FilterError);
                     }
                 );
             }

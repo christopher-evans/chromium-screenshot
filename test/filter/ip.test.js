@@ -7,20 +7,19 @@
 
 const assert = require("assert");
 const { describe, it } = require("mocha");
-const path = require("path");
-const { absolutePathFilter } = require("../../src/filter");
+const { ipFilter } = require("../../src/filter");
 const { FilterError } = require("../../src/error");
 const type = require("../../src/type");
 
 describe(
-    "Filter: absolutePath",
+    "Filter: ip",
     () =>
     {
         describe(
             "::invoke",
             () =>
             {
-                const filter = absolutePathFilter();
+                const filter = ipFilter();
 
                 it(
                     "should error for non-string values",
@@ -43,9 +42,9 @@ describe(
                     () =>
                     {
                         const strings = [
-                            "tmp.txt",
-                            "../../",
-                            "."
+                            "127.0.0.1",
+                            "0.0.0.0",
+                            "::1"
                         ];
 
                         strings.forEach(value => assert(type.string(filter(value))));
@@ -53,16 +52,18 @@ describe(
                 );
 
                 it(
-                    "should resolve arguments to an absolute path",
+                    "should error for invalid IPs",
                     () =>
                     {
-                        const files = [
-                            "tmp.txt",
-                            "../../",
-                            "."
+                        // don't check the IP spec, just make sure we get the right error for
+                        // some obvious failures
+                        const strings = [
+                            "",
+                            "--",
+                            "invalid"
                         ];
 
-                        files.forEach(file => assert(path.isAbsolute(filter(file))));
+                        strings.forEach(value => assert.throws(() => filter(value)), FilterError);
                     }
                 );
             }

@@ -7,20 +7,19 @@
 
 const assert = require("assert");
 const { describe, it } = require("mocha");
-const path = require("path");
-const { absolutePathFilter } = require("../../src/filter");
+const { htmlFilter } = require("../../src/filter");
 const { FilterError } = require("../../src/error");
 const type = require("../../src/type");
 
 describe(
-    "Filter: absolutePath",
+    "Filter: html",
     () =>
     {
         describe(
             "::invoke",
             () =>
             {
-                const filter = absolutePathFilter();
+                const filter = htmlFilter();
 
                 it(
                     "should error for non-string values",
@@ -43,26 +42,12 @@ describe(
                     () =>
                     {
                         const strings = [
-                            "tmp.txt",
-                            "../../",
-                            "."
+                            "",
+                            "<!DOCTYPE html>",
+                            "<p></p>"
                         ];
 
                         strings.forEach(value => assert(type.string(filter(value))));
-                    }
-                );
-
-                it(
-                    "should resolve arguments to an absolute path",
-                    () =>
-                    {
-                        const files = [
-                            "tmp.txt",
-                            "../../",
-                            "."
-                        ];
-
-                        files.forEach(file => assert(path.isAbsolute(filter(file))));
                     }
                 );
             }

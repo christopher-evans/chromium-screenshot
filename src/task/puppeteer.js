@@ -7,7 +7,7 @@
 
 const browserState = require("../state/browser");
 
-const puppeteerTask = (source, logger) =>
+const puppeteerTask = source =>
 {
     const state = browserState();
 

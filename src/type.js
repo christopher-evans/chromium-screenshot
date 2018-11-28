@@ -14,7 +14,7 @@ const type =
         "map": value => toString.call(value) === "[object Map]",
         "object": value => toString.call(value) === "[object Object]",
         "set": value => toString.call(value) === "[object Set]",
-        "string": value => typeof value === "string",
+        "string": value => toString.call(value) === "[object String]",
         "undefined": value => undefined === value
     };
 

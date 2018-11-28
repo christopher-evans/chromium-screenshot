@@ -19,7 +19,6 @@ const errorMiddleware = logger =>
             const statusCode = 500;
 
             // log
-            console.log(error);
             logger.error(
                 "Uncaught middleware error",
                 {

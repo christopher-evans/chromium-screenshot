@@ -21,12 +21,13 @@ class AggregateError extends FilterError
 
     toString()
     {
+        let formatted = "Aggregate Error";
+
         if (this.errors.size === 0)
         {
-            return super.toString();
+            formatted += ": \n";
         }
 
-        let formatted = "Filter Error:\n";
         this.errors.forEach((error, key) => formatted += "\t" + key + ": " + error.message);
 
         return formatted;

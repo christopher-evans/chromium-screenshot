@@ -12,7 +12,7 @@ const type = require("../type");
 const htmlFilter = settings =>
     value =>
     {
-        if (type.string(value))
+        if (! type.string(value))
         {
             throw new FilterError("invalid html: not a string");
         }

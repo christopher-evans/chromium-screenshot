@@ -10,6 +10,7 @@ const sinon = require("sinon");
 const { describe, it } = require("mocha");
 const { aggregateFilter } = require("../../src/filter");
 const { FilterError } = require("../../src/error");
+const type = require("../../src/type");
 
 describe(
     "Filter: aggregate",
@@ -39,30 +40,57 @@ describe(
                     }
                 );
 
+                const dataSets = [
+                    {},
+                    {
+                        "first": 1
+                    },
+                    {
+                        "first": 1,
+                        "second": {
+                            "key": new Map()
+                        }
+                    }
+                ];
+                const stubFilters = (dataSet, stub) =>
+                {
+                    const filters = new Map();
+                    Object.entries(dataSet).forEach(
+                        ([key, value]) => filters.set(key, stub(key, value))
+                    );
+
+                    return filters;
+                };
+
+                it(
+                    "should return an object",
+                    () =>
+                    {
+                        dataSets.forEach(
+                            dataSet =>
+                            {
+                                const filters = stubFilters(dataSet, (_, value) => sinon.stub().returns(value));
+                                const testFilter = aggregateFilter(filters);
+
+                                assert(type.object(testFilter(dataSet)));
+                            }
+                        );
+                    }
+                );
+
                 it(
                     "should apply filters for each key",
                     () =>
                     {
-                        const data = {
-                            "first": 1,
-                            "second": {
-                                "key": new Map()
-                            }
-                        };
-                        const firstFilter = sinon.stub().returns(data.first);
-                        const secondFilter = sinon.stub().returns(data.second);
-                        const filter = aggregateFilter(
-                            new Map(
-                                Object.entries(
-                                    {
-                                        "first": firstFilter,
-                                        "second": secondFilter
-                                    }
-                                )
-                            )
-                        );
+                        dataSets.forEach(
+                            dataSet =>
+                            {
+                                const filters = stubFilters(dataSet, (_, value) => sinon.stub().returns(value));
+                                const testFilter = aggregateFilter(filters);
 
-                        assert.deepStrictEqual(filter(data), data);
+                                assert.deepStrictEqual(testFilter(dataSet), dataSet);
+                            }
+                        );
                     }
                 );
 
@@ -70,33 +98,33 @@ describe(
                     "should aggregate errors",
                     () =>
                     {
-                        const firstError = new FilterError();
-                        const secondError = new FilterError();
-                        const firstFilter = sinon.stub().throws(firstError);
-                        const secondFilter = sinon.stub().throws(secondError);
-                        const filter = aggregateFilter(
-                            new Map(
-                                Object.entries(
-                                    {
-                                        "first": firstFilter,
-                                        "second": secondFilter
-                                    }
-                                )
-                            )
-                        );
-
-                        assert.throws(
-                            () => filter({}),
+                        dataSets.forEach(
+                            dataSet =>
                             {
-                                "name": "AggregateError",
-                                "errors": new Map(
-                                    Object.entries(
+                                const errors = new Map();
+                                const filters = stubFilters(
+                                    dataSet,
+                                    key =>
+                                    {
+                                        const error = new FilterError();
+
+                                        errors.set(key, error);
+
+                                        return sinon.stub().throws(error);
+                                    }
+                                );
+                                const testFilter = aggregateFilter(filters);
+
+                                if (errors.size > 0)
+                                {
+                                    assert.throws(
+                                        () => testFilter({}),
                                         {
-                                            "first": firstError,
-                                            "second": secondError
+                                            "name": "AggregateError",
+                                            "errors": errors
                                         }
-                                    )
-                                )
+                                    );
+                                }
                             }
                         );
                     }
