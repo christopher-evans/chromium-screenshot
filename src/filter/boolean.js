@@ -8,7 +8,7 @@
 /**
  * Filter that casts all input to boolean.
  *
- * @author Christopher Evans <cmevans@tutanota.com>
+ * @author Christopher Evans <cvns.github@gmail.com>
  */
 class Boolean
 {

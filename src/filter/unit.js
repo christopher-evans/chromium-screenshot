@@ -12,7 +12,7 @@ const check = require("check-types");
  *
  * Permissible units may be configured with a regex, by default `cm`, `in`, `mm` and `px` are allowed.
  *
- * @author Christopher Evans <cmevans@tutanota.com>
+ * @author Christopher Evans <cvns.github@gmail.com>
  */
 class Unit
 {

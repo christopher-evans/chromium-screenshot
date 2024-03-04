@@ -12,7 +12,7 @@ const validUrl = require("valid-url");
  *
  * Uses the valid-url package.
  *
- * @author Christopher Evans <cmevans@tutanota.com>
+ * @author Christopher Evans <cvns.github@gmail.com>
  */
 class Url
 {

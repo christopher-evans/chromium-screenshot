@@ -12,7 +12,7 @@ const url = require("url");
  *
  * Uses the url core package.
  *
- * @author Christopher Evans <cmevans@tutanota.com>
+ * @author Christopher Evans <cvns.github@gmail.com>
  */
 class UrlPath
 {

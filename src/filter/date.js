@@ -11,7 +11,7 @@ const isostring = require("isostring");
 /**
  * Filter that parses ISO8601 dates into a Date object.
  *
- * @author Christopher Evans <cmevans@tutanota.com>
+ * @author Christopher Evans <cvns.github@gmail.com>
  */
 class DateFilter
 {

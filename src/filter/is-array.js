@@ -12,7 +12,7 @@ const check = require("check-types");
  *
  * Each value in the input array must be present in the haystack of permitted values.
  *
- * @author Christopher Evans <cmevans@tutanota.com>
+ * @author Christopher Evans <cvns.github@gmail.com>
  */
 class IsArray
 {

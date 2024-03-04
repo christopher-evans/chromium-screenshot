@@ -10,7 +10,7 @@
  *
  * The prefix `"npm_package_config_"` is stripped from config values and a filter applied.
  *
- * @author Christopher Evans <cmevans@tutanota.com>
+ * @author Christopher Evans <cvns.github@gmail.com>
  */
 class Env
 {

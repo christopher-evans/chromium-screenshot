@@ -8,7 +8,7 @@
 /**
  * Action responding to log requests.
  *
- * @author Christopher Evans <cmevans@tutanota.com>
+ * @author Christopher Evans <cvns.github@gmail.com>
  */
 class Log
 {

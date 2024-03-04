@@ -14,7 +14,7 @@ const Browser = require("./browser");
  * Limits the application to a single active browser instance, but delays closing any instance
  * until all requests queued to the browser have completed or failed.
  *
- * @author Christopher Evans <cmevans@tutanota.com>
+ * @author Christopher Evans <cvns.github@gmail.com>
  */
 class BrowserPool
 {

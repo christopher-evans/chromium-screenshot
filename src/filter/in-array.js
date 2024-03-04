@@ -10,7 +10,7 @@
  *
  * Values may by any (mixed) type.
  *
- * @author Christopher Evans <cmevans@tutanota.com>
+ * @author Christopher Evans <cvns.github@gmail.com>
  */
 class InArray
 {

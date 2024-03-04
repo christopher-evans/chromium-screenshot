@@ -10,7 +10,7 @@
  *
  * Returns 400 if the request parameters cannot be parsed.
  *
- * @author Christopher Evans <cmevans@tutanota.com>
+ * @author Christopher Evans <cvns.github@gmail.com>
  */
 class Input
 {

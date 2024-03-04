@@ -12,7 +12,7 @@ const EventEmitter = require("events");
  *
  * Maintains an array of requests pending for the instance to prevent disconnecting before all requests have completed.
  *
- * @author Christopher Evans <cmevans@tutanota.com>
+ * @author Christopher Evans <cvns.github@gmail.com>
  */
 class Browser extends EventEmitter
 {

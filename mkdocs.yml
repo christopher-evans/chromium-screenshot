@@ -1,6 +1,6 @@
 site_name: 'Chromium Screenshot'
 site_description: 'Screenshot service using Chromium and Puppeteer'
-copyright: '(c) Chris Evans <cmevans@tutanota.com>'
+copyright: '(c) Chris Evans <cvns.github@gmail.com>'
 repo_url: 'https://github.com/christopher-evans/chromium-screenshot'
 nav:
 - Quick start: 'index.md'

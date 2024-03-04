@@ -8,7 +8,7 @@
 /**
  * Filter that parses and validates integer values.
  *
- * @author Christopher Evans <cmevans@tutanota.com>
+ * @author Christopher Evans <cvns.github@gmail.com>
  */
 class NumberFilter
 {

@@ -12,7 +12,7 @@
  *
  * Input is said to be empty if it is not `undefined`.
  *
- * @author Christopher Evans <cmevans@tutanota.com>
+ * @author Christopher Evans <cvns.github@gmail.com>
  */
 class DynamicDefault
 {

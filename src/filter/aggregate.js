@@ -12,7 +12,7 @@ const check = require("check-types");
  *
  * Input must be an object of key value pairs, values can be mixed.
  *
- * @author Christopher Evans <cmevans@tutanota.com>
+ * @author Christopher Evans <cvns.github@gmail.com>
  */
 class Aggregate
 {

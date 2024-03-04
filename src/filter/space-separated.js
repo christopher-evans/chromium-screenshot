@@ -12,7 +12,7 @@ const check = require("check-types");
  *
  * Empty strings are filtered from the result.
  *
- * @author Christopher Evans <cmevans@tutanota.com>
+ * @author Christopher Evans <cvns.github@gmail.com>
  */
 class SpaceSeparated
 {

@@ -10,7 +10,7 @@ const path = require("path");
 /**
  * Filter that resolved file paths to absolute paths.
  *
- * @author Christopher Evans <cmevans@tutanota.com>
+ * @author Christopher Evans <cvns.github@gmail.com>
  */
 class Path
 {

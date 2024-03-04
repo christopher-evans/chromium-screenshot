@@ -10,7 +10,7 @@
  *
  * Uses a Chromium instance to render the page as an image.
  *
- * @author Christopher Evans <cmevans@tutanota.com>
+ * @author Christopher Evans <cvns.github@gmail.com>
  */
 class Image
 {

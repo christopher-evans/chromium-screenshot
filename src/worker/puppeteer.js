@@ -12,7 +12,7 @@ const puppeteer = require("puppeteer");
  *
  * The connected chromium instance is passed to a child worker.
  *
- * @author Christopher Evans <cmevans@tutanota.com>
+ * @author Christopher Evans <cvns.github@gmail.com>
  */
 class Puppeteer
 {

@@ -10,7 +10,7 @@ const check = require("check-types");
 /**
  * Filter that casts strings "" and "0" to `false`, and everything else to `true`.
  *
- * @author Christopher Evans <cmevans@tutanota.com>
+ * @author Christopher Evans <cvns.github@gmail.com>
  */
 class BooleanString
 {

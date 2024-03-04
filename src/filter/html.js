@@ -13,7 +13,7 @@ const sanitizeHtml = require("sanitize-html");
  *
  * Uses the sanitize-html package.
  *
- * @author Christopher Evans <cmevans@tutanota.com>
+ * @author Christopher Evans <cvns.github@gmail.com>
  */
 class Html
 {

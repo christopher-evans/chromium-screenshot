@@ -11,12 +11,12 @@
   "homepage": "https://github.com/christopher-evans/chromium-screenshot",
   "bugs": {
     "url": "https://github.com/christopher-evans/chromium-screenshot/issues",
-    "email": "cmevans@tutanota.com"
+    "email": "cvns.github@gmail.com"
   },
   "license": "MIT",
   "author": {
     "name": "Christopher Evans",
-    "email": "cmevans@tutanota.com",
+    "email": "cvns.github@gmail.com",
     "url": "https://github.com/christopher-evans"
   },
   "main": "src/index.js",

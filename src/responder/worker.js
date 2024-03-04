@@ -10,7 +10,7 @@ const uuidv4 = require("uuid/v4");
 /**
  * Action responding to worker requests.
  *
- * @author Christopher Evans <cmevans@tutanota.com>
+ * @author Christopher Evans <cvns.github@gmail.com>
  */
 class Worker
 {
